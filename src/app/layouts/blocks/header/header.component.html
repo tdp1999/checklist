@@ -7,12 +7,16 @@
     >
         <mat-icon>menu</mat-icon>
     </button>
-    <span>My App</span>
+
+    <a routerLink="/"><h1>My Checklist</h1></a>
     <span class="example-spacer"></span>
-    <button type="button" mat-icon-button class="example-icon favorite-icon">
-        <mat-icon>favorite</mat-icon>
-    </button>
-    <button type="button" mat-icon-button class="example-icon">
-        <mat-icon>share</mat-icon>
-    </button>
+
+    <!-- Project select -->
+    <mat-form-field>
+        <mat-select>
+            <mat-option *ngFor="let food of foods" [value]="food.value">
+                {{ food.viewValue }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 </mat-toolbar>
