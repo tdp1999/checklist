@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SidenavService } from 'src/app/common/service/sidenav.service';
 
 @Component({
     selector: 'app-header',
@@ -12,7 +13,11 @@ export class HeaderComponent implements OnInit {
         { value: 'tacos-2', viewValue: 'Tacos' },
     ];
 
-    constructor() {}
+    constructor(private sidenavService: SidenavService) {}
 
     ngOnInit(): void {}
+
+    toggleSidebar() {
+        this.sidenavService.toggleSidebarState();
+    }
 }

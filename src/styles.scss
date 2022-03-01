@@ -9,6 +9,18 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+app-main-layout,
+app-fluid-layout,
+app-sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.mat-drawer-container {
+    flex: 1;
+}
+
 // Reset CSS
 a {
     text-decoration: none;

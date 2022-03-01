@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
+import { SidenavService } from 'src/app/common/service/sidenav.service';
 
 @NgModule({
     imports: [
@@ -24,5 +25,6 @@ import { MatSelectModule } from '@angular/material/select';
     ],
     declarations: [HeaderComponent],
     exports: [HeaderComponent],
+    providers: [SidenavService],
 })
 export class HeaderModule {}
