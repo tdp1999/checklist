@@ -1,0 +1,78 @@
+{
+    "category": [
+        {
+            "id": 1,
+            "name": "Architecture",
+            "completePercentage": 0,
+            "description": ""
+        },
+        {
+            "id": 2,
+            "name": "Components",
+            "completePercentage": 0,
+            "description": ""
+        },
+        {
+            "id": 3,
+            "name": "General",
+            "completePercentage": 0,
+            "description": ""
+        },
+        {
+            "id": 4,
+            "name": "HTTPS",
+            "completePercentage": 0,
+            "description": ""
+        },
+        {
+            "id": 5,
+            "name": "RxJS",
+            "completePercentage": 0,
+            "description": ""
+        },
+        {
+            "id": 6,
+            "name": "Performance",
+            "completePercentage": 0,
+            "description": ""
+        },
+        {
+            "id": 7,
+            "name": "Router",
+            "completePercentage": 0,
+            "description": ""
+        },
+        {
+            "id": 8,
+            "name": "Tooling",
+            "completePercentage": 0,
+            "description": ""
+        },
+        {
+            "id": 9,
+            "name": "Typescript",
+            "completePercentage": 0,
+            "description": ""
+        }
+    ],
+    "item": [
+        {
+            "isDone": true,
+            "id": "asdasdasd"
+        },
+        {
+            "id": "asdkjahsdk",
+            "title": "release resources in ngOnDestroy",
+            "category": "2",
+            "content": "",
+            "isDone": false
+        },
+        {
+            "id": "asdkjahsdk",
+            "title": "use latest version of everything",
+            "category": "3",
+            "content": "",
+            "isDone": false
+        }
+    ]
+}

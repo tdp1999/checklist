@@ -1,24 +1,21 @@
-<mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+<mat-sidenav-container *ngIf="categoryList$ | async as categoryList">
+    <mat-sidenav mode="side" [(opened)]="opened">
         <mat-nav-list>
-            <a mat-list-item routerLink="/" routerLinkActive="active">
-                <mat-icon>home</mat-icon>
-                <span>Home</span>
-            </a>
-            <a mat-list-item routerLink="/about" routerLinkActive="active">
-                <mat-icon>info</mat-icon>
-                <span>About</span>
-            </a>
-            <a mat-list-item routerLink="/contact" routerLinkActive="active">
-                <mat-icon>contact_mail</mat-icon>
-                <span>Contact</span>
+            <a
+                *ngFor="let category of categoryList"
+                mat-list-item
+                [routerLink]="'./' + category.name"
+                routerLinkActive="active"
+                class="nav-item"
+            >
+                <span>{{ category.name | titlecase }} &nbsp;</span>
+                <span>({{ category.completePercentage }}%)</span>
             </a>
         </mat-nav-list>
     </mat-sidenav>
 
     <!-- Mat sidenav content -->
     <mat-sidenav-content>
-        asdb
         <ng-content></ng-content>
     </mat-sidenav-content>
 </mat-sidenav-container>
