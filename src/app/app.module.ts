@@ -8,9 +8,10 @@ import { FluidLayoutComponent } from './layouts/fluid-layout/fluid-layout.compon
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { SharedComponentsModule } from './shared-components/shared-components.module';
 import { HttpClientModule } from '@angular/common/http';
+import { SlugifyPipe } from './common/pipe/slugify.pipe';
 
 @NgModule({
-    declarations: [AppComponent, FluidLayoutComponent, MainLayoutComponent],
+    declarations: [AppComponent, FluidLayoutComponent, MainLayoutComponent, SlugifyPipe],
     imports: [
         BrowserModule,
         AppRoutingModule,

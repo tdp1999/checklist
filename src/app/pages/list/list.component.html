@@ -1,2 +1,4 @@
-<p>list works!</p>
-ansdjaksd
+list work!
+<ng-container *ngFor="let item of [1, 2, 3, 4, 5, 6]">
+    <a [routerLink]="['./', item]">{{ item }}</a> <br />
+</ng-container>

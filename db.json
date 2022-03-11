@@ -57,22 +57,20 @@
     ],
     "item": [
         {
-            "isDone": true,
-            "id": "asdasdasd"
-        },
-        {
             "id": "asdkjahsdk",
             "title": "release resources in ngOnDestroy",
             "category": "2",
             "content": "",
-            "isDone": false
+            "isDone": false,
+            "slug": "release-resources-in-ngondestroy"
         },
         {
             "id": "asdkjahsdk",
             "title": "use latest version of everything",
             "category": "3",
             "content": "",
-            "isDone": false
+            "isDone": false,
+            "slug": "use-latest-version-of-everything"
         }
     ]
 }

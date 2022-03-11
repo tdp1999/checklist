@@ -4,4 +4,5 @@ export interface Item {
     content: string;
     categoryId: string;
     isDone: boolean;
+    slug: string;
 }

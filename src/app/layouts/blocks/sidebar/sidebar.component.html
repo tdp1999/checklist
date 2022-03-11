@@ -4,7 +4,7 @@
             <a
                 *ngFor="let category of categoryList"
                 mat-list-item
-                [routerLink]="'./' + category.name"
+                [routerLink]="'./' + category.name.toLowerCase()"
                 routerLinkActive="active"
                 class="nav-item"
             >
