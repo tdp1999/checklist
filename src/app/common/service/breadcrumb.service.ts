@@ -4,9 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { BreadcrumbItem } from '../schema/breadcrumb';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class BreadcrumbService {
     // Subject emitting the breadcrumb hierarchy
     private readonly _breadcrumbs$ = new BehaviorSubject<BreadcrumbItem[]>([]);
