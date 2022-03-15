@@ -13,9 +13,11 @@ export class ListComponent implements OnInit, OnDestroy {
     constructor(private _activatedRoute: ActivatedRoute) {}
 
     ngOnInit(): void {
-        this._subs.sink = this._activatedRoute.params.subscribe((params) => {
-            console.log(params);
-        });
+        // Params
+        this._subs.sink = this._activatedRoute.params.subscribe((params) => {});
+
+        // Data
+        this._subs.sink = this._activatedRoute.data.subscribe((data) => {});
     }
 
     ngOnDestroy(): void {

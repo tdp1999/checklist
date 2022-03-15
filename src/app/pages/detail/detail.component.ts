@@ -10,8 +10,8 @@ export class DetailComponent implements OnInit {
     constructor(private _router: Router, private _activatedRoute: ActivatedRoute) {}
 
     ngOnInit(): void {
-        this._activatedRoute.params.subscribe((params) => {
-            console.log(params);
-        });
+        // this._activatedRoute.params.subscribe((params) => {
+        //     console.log(params);
+        // });
     }
 }

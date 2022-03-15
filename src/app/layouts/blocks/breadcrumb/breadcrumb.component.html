@@ -1,11 +1,10 @@
-<nav aria-label="breadcrumb">
+<nav aria-label="breadcrumb" *ngIf="breadcrumbs$ | async as breadcrumbs">
     <ol class="breadcrumb">
         <li
-            *ngFor="let item of items; let last = last"
+            *ngFor="let breadcrumb of breadcrumbs; let last = last"
             class="breadcrumb-item {{ last ? 'active' : '' }}"
         >
-            <a [routerLink]="item.slug">{{ item.label }}</a>
-            <!-- <mat-icon *ngIf="!last">chevron_right</mat-icon> -->
+            <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
         </li>
     </ol>
 </nav>

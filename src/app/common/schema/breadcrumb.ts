@@ -1,4 +1,6 @@
 export interface BreadcrumbItem {
     label: string;
-    slug?: string;
+
+    // url, not slug, because we need to use the router to navigate
+    url?: string;
 }

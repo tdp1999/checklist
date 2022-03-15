@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { BreadcrumbItem } from 'src/app/common/schema/breadcrumb';
+import { BreadcrumbService } from 'src/app/common/service/breadcrumb.service';
 
 @Component({
     selector: 'app-breadcrumb',
@@ -8,18 +10,11 @@ import { BreadcrumbItem } from 'src/app/common/schema/breadcrumb';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbComponent implements OnInit {
-    items: BreadcrumbItem[] = [
-        {
-            label: 'Home',
-            slug: '/',
-        },
-        {
-            label: 'About',
-            slug: '/about',
-        },
-    ];
+    breadcrumbs$!: Observable<BreadcrumbItem[]>;
 
-    constructor() {}
+    constructor(private readonly _bS: BreadcrumbService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.breadcrumbs$ = this._bS.breadcrumbs$;
+    }
 }

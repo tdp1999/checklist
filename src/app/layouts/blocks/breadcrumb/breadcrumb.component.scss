@@ -1,4 +1,15 @@
 .breadcrumb {
     display: flex;
     border-bottom: 1px solid black;
+
+    &-item {
+        font-size: 20px;
+        line-height: 32px;
+        margin-right: 12px;
+
+        &.active {
+            font-weight: bold;
+            color: blue;
+        }
+    }
 }
