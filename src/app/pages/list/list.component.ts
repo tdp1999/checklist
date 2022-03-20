@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { Item } from 'src/app/common/schema/item';
+import { ApiPageListService } from 'src/app/common/service/api/api-page-list.service';
 import { SubSink } from 'subsink';
 
 @Component({
@@ -8,19 +12,29 @@ import { SubSink } from 'subsink';
     styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit, OnDestroy {
-    private _subs = new SubSink();
+    // private _subs = new SubSink();
 
-    constructor(private _activatedRoute: ActivatedRoute) {}
+    public checkList$!: Observable<Item[]>;
+
+    constructor(
+        private _activatedRoute: ActivatedRoute,
+        private _apiPageListService: ApiPageListService
+    ) {}
 
     ngOnInit(): void {
         // Params
-        this._subs.sink = this._activatedRoute.params.subscribe((params) => {});
+        this.checkList$ = this._activatedRoute.params.pipe(
+            // Get content base on cateogory
+            switchMap((params) => {
+                return this._apiPageListService.getContentByCategory(params.section, 1, 10);
+            })
+        );
 
         // Data
-        this._subs.sink = this._activatedRoute.data.subscribe((data) => {});
+        // this._subs.sink = this._activatedRoute.data.subscribe((data) => {});
     }
 
     ngOnDestroy(): void {
-        this._subs.unsubscribe();
+        // this._subs.unsubscribe();
     }
 }

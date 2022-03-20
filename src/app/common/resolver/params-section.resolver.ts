@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 })
 export class ParamsSectionResolver implements Resolve<boolean> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return of(route.params.section.toLowerCase());
+        // return of(route.params.section.toLowerCase());
+        return of(route.params.section);
     }
 }

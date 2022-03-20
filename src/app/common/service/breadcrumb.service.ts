@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Data, NavigationEnd, Router } from '@angular/ro
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { BreadcrumbItem } from '../schema/breadcrumb';
+import { unslug } from '../helpers/unslug';
 
 @Injectable({ providedIn: 'root' })
 export class BreadcrumbService {
@@ -42,7 +43,7 @@ export class BreadcrumbService {
             // Add breadcrumb to the list
             if (route.data.breadcrumb && route.url.length > 0) {
                 const breadcrumb = {
-                    label: this._getLabel(route.data),
+                    label: unslug(this._getLabel(route.data)),
                     url: '/' + routeUrl.join('/'),
                 };
 
