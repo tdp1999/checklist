@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EMPTY, iif, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Item } from 'src/app/common/schema/item';
 import { ApiPageListService } from 'src/app/common/service/api/api-page-list.service';
+import { SidenavService } from 'src/app/common/service/sidenav.service';
 import { SubSink } from 'subsink';
 
 @Component({
@@ -18,7 +19,9 @@ export class ListComponent implements OnInit, OnDestroy {
 
     constructor(
         private _activatedRoute: ActivatedRoute,
-        private _apiPageListService: ApiPageListService
+        private _apiPageListService: ApiPageListService,
+        private _sideNavService: SidenavService,
+        private _router: Router
     ) {}
 
     ngOnInit(): void {
@@ -26,6 +29,12 @@ export class ListComponent implements OnInit, OnDestroy {
         this.checkList$ = this._activatedRoute.params.pipe(
             // Get content base on cateogory
             switchMap((params) => {
+                if (!params.section) {
+                    this._sideNavService.getCategoryList().subscribe((category) => {
+                        this._router.navigate(['/checklist/', category[0].name]);
+                        return EMPTY;
+                    });
+                }
                 return this._apiPageListService.getContentByCategory(params.section, 1, 10);
             })
         );

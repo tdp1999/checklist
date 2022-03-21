@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Category } from 'src/app/common/schema/category';
 import { SidenavService } from 'src/app/common/service/sidenav.service';
+import { SubSink } from 'subsink';
 
 @Component({
     selector: 'app-sidebar',
@@ -10,7 +12,9 @@ import { SidenavService } from 'src/app/common/service/sidenav.service';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
     opened!: boolean;
-    subscription!: Subscription;
+    // subscription!: Subscription;
+
+    private _sub = new SubSink();
 
     categoryList$!: Observable<Category[]>;
 
@@ -18,7 +22,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         // Toggle sidebar on click
-        this.subscription = this.sidebarService.currentState.subscribe((state) => {
+        this._sub.sink = this.sidebarService.currentState.subscribe((state) => {
             this.opened = state;
         });
 
@@ -27,6 +31,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this._sub.unsubscribe();
     }
 }

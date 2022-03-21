@@ -25,6 +25,11 @@ const routes: Routes = [
     // Main layout
     {
         path: 'checklist',
+        redirectTo: 'checklist/',
+        pathMatch: 'full',
+    },
+    {
+        path: 'checklist',
         component: MainLayoutComponent,
         // data: { breadcrumb: 'Checklist' },
         children: [

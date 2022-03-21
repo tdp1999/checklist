@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { Item } from '../../schema/item';
 import { ApiHttpService } from './api-http.service';
 import { QueryStringParamsService } from './query-string-params.service';
 
@@ -22,7 +23,13 @@ export class ApiPageListService {
 
     // Get content base on cateogory id
     // {{ url }}item?category={{ params.section }}&_page=1&_limit=10
-    public getContentByCategory = (category: string, page: number, limit: number) => {
+    public getContentByCategory = (
+        category: string,
+        page: number,
+        limit: number
+    ): Observable<Item[]> => {
+        console.log(category);
+
         return this.getCategoryId(category).pipe(
             switchMap((categoryId) => {
                 const params = [
