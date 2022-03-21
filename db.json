@@ -3,54 +3,63 @@
         {
             "id": 1,
             "name": "architecture",
+            "slug": "architecture",
             "completePercentage": 0,
             "description": ""
         },
         {
             "id": 2,
             "name": "components",
+            "slug": "components",
             "completePercentage": 0,
             "description": ""
         },
         {
             "id": 3,
             "name": "general",
+            "slug": "general",
             "completePercentage": 0,
             "description": ""
         },
         {
             "id": 4,
             "name": "https",
+            "slug": "https",
             "completePercentage": 0,
             "description": ""
         },
         {
             "id": 5,
             "name": "rxjs",
+            "slug": "rxjs",
             "completePercentage": 0,
             "description": ""
         },
         {
             "id": 6,
             "name": "performance",
+            "slug": "performance",
             "completePercentage": 0,
             "description": ""
         },
         {
             "id": 7,
             "name": "router",
+            "slug": "router",
             "completePercentage": 0,
             "description": ""
         },
         {
             "id": 8,
             "name": "tooling",
+            "slug": "tooling",
             "completePercentage": 0,
             "description": ""
         },
         {
             "id": 9,
             "name": "typescript",
+            "slug": "typescript",
             "completePercentage": 0,
             "description": ""
         }

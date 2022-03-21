@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { ErrorMessage } from '../../constants/error-message';
 import { Item } from '../../schema/item';
 import { ApiHttpService } from './api-http.service';
 import { QueryStringParamsService } from './query-string-params.service';
@@ -15,10 +16,15 @@ export class ApiPageListService {
     ) {}
 
     // Get category id base on category name
-    public getCategoryId = (categoryName: string): Observable<any> => {
-        return this._apiHttpService
-            .get(`category?name=${categoryName}`)
-            .pipe(map((data) => data[0].id));
+    public getCategoryId = (slug: string): Observable<string | null> => {
+        return this._apiHttpService.get(`category?slug=${slug}`).pipe(
+            map((data) => {
+                if (data.length > 0) return data[0].id;
+                else {
+                    return null;
+                }
+            })
+        );
     };
 
     // Get content base on cateogory id
@@ -28,23 +34,25 @@ export class ApiPageListService {
         page: number,
         limit: number
     ): Observable<Item[]> => {
-        console.log(category);
-
         return this.getCategoryId(category).pipe(
             switchMap((categoryId) => {
-                const params = [
-                    { key: 'category', value: categoryId },
-                    { key: '_page', value: page },
-                    { key: '_limit', value: limit },
-                ];
+                if (categoryId === null) {
+                    return throwError(ErrorMessage.CategoryNotFound);
+                } else {
+                    const params = [
+                        { key: 'category', value: categoryId },
+                        { key: '_page', value: page },
+                        { key: '_limit', value: limit },
+                    ];
 
-                const queryString = this._queryStringParamsService.toString(params);
+                    const queryString = this._queryStringParamsService.toString(params);
 
-                // Option 1: Use query string
-                return this._apiHttpService.get('item?' + queryString);
+                    // Option 1: Use query string
+                    return this._apiHttpService.get('item?' + queryString);
 
-                // Option 2: Use params
-                // return this._apiHttpService.get('item', params);
+                    // Option 2: Use params
+                    // return this._apiHttpService.get('item', params);
+                }
             })
         );
     };

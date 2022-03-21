@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, iif, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { Item } from 'src/app/common/schema/item';
 import { ApiPageListService } from 'src/app/common/service/api/api-page-list.service';
 import { SidenavService } from 'src/app/common/service/sidenav.service';
@@ -21,7 +22,8 @@ export class ListComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _apiPageListService: ApiPageListService,
         private _sideNavService: SidenavService,
-        private _router: Router
+        private _router: Router,
+        private _snackbar: MatSnackBar
     ) {}
 
     ngOnInit(): void {
@@ -31,11 +33,17 @@ export class ListComponent implements OnInit, OnDestroy {
             switchMap((params) => {
                 if (!params.section) {
                     this._sideNavService.getCategoryList().subscribe((category) => {
-                        this._router.navigate(['/checklist/', category[0].name]);
+                        this._router.navigate(['/checklist/', category[0].slug]);
                         return EMPTY;
                     });
                 }
-                return this._apiPageListService.getContentByCategory(params.section, 1, 10);
+                return this._apiPageListService.getContentByCategory(params.section, 1, 10).pipe(
+                    catchError((error) => {
+                        this._snackbar.open(error, 'Close', { duration: 3000 });
+                        this._router.navigate(['/checklist/']);
+                        return EMPTY;
+                    })
+                );
             })
         );
 

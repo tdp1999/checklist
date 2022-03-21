@@ -4,13 +4,16 @@
             <a
                 *ngFor="let category of categoryList"
                 mat-list-item
-                [routerLink]="'./' + category.name.toLowerCase()"
+                [routerLink]="'./' + category.slug"
                 routerLinkActive="active"
                 class="nav-item"
             >
                 <span>{{ category.name | titlecase }} &nbsp;</span>
                 <span>({{ category.completePercentage }}%)</span>
             </a>
+            <a routerLink="abc" mat-list-item class="nav-item" routerLinkActive="active"
+                >TEST CASE</a
+            >
         </mat-nav-list>
     </mat-sidenav>
 
