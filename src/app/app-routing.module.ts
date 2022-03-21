@@ -20,8 +20,36 @@ const routes: Routes = [
                 loadChildren: () =>
                     import('./pages/projects/projects.module').then((m) => m.ProjectsModule),
             },
+            {
+                path: 'admin',
+                children: [
+                    {
+                        path: '',
+                        pathMatch: 'full',
+                        redirectTo: 'categories',
+                    },
+                    {
+                        path: 'categories',
+                        loadChildren: () =>
+                            import('./pages/admin/category/category.module').then(
+                                (m) => m.CategoryModule
+                            ),
+                    },
+                    {
+                        path: 'items',
+                        loadChildren: () =>
+                            import('./pages/admin/item/item.module').then((m) => m.ItemModule),
+                    },
+                ],
+            },
+            {
+                path: '**',
+                loadChildren: () =>
+                    import('./pages/not-found/not-found.module').then((m) => m.NotFoundModule),
+            },
         ],
     },
+
     // Main layout
     {
         path: 'checklist',
