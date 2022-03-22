@@ -1,1 +1,9 @@
-<p>category works!</p>
+<div *ngIf="categories$ | async as categories" class="container">
+    <app-datatable
+        [columns]="columns"
+        [dataSource]="categories"
+        [displayedColumns]="displayedColumn"
+        [actions]="[actionType.EDIT, actionType.DELETE, actionType.VIEW]"
+        (onActionTriggered)="onActionTriggered($event)"
+    ></app-datatable>
+</div>

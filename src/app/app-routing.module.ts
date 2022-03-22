@@ -42,11 +42,6 @@ const routes: Routes = [
                     },
                 ],
             },
-            {
-                path: '**',
-                loadChildren: () =>
-                    import('./pages/not-found/not-found.module').then((m) => m.NotFoundModule),
-            },
         ],
     },
 
@@ -68,6 +63,11 @@ const routes: Routes = [
                 resolve: { section: ParamsSectionResolver },
             },
         ],
+    },
+    {
+        path: '**',
+        loadChildren: () =>
+            import('./pages/not-found/not-found.module').then((m) => m.NotFoundModule),
     },
 ];
 

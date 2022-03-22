@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, iif, Observable } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { Item } from 'src/app/common/schema/item';
+import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
 import { ApiPageListService } from 'src/app/common/service/api/api-page-list.service';
 import { SidenavService } from 'src/app/common/service/sidenav.service';
 import { SubSink } from 'subsink';
@@ -21,7 +22,7 @@ export class ListComponent implements OnInit, OnDestroy {
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _apiPageListService: ApiPageListService,
-        private _sideNavService: SidenavService,
+        private _categoryService: ApiCategoryAbstractService,
         private _router: Router,
         private _snackbar: MatSnackBar
     ) {}
@@ -32,7 +33,7 @@ export class ListComponent implements OnInit, OnDestroy {
             // Get content base on cateogory
             switchMap((params) => {
                 if (!params.section) {
-                    this._sideNavService.getCategoryList().subscribe((category) => {
+                    this._categoryService.getCategoryList().subscribe((category) => {
                         this._router.navigate(['/checklist/', category[0].slug]);
                         return EMPTY;
                     });

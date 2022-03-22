@@ -7,12 +7,21 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+html,
+body,
+app-root,
 app-main-layout,
 app-fluid-layout,
 app-sidebar {
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+app-main-layout,
+app-fluid-layout,
+main {
+    flex-grow: 1;
 }
 
 .mat-drawer-container {

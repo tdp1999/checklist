@@ -1,0 +1,54 @@
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="data" class="demo-table">
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+            <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
+            <td mat-cell *matCellDef="let row">{{ column.cell(row) }}</td>
+        </ng-container>
+
+        <ng-container *ngIf="actions.length > 0" matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let row">
+                <ng-container *ngFor="let action of actions" [ngSwitch]="action">
+                    <button
+                        *ngSwitchCase="actionType.EDIT"
+                        type="button"
+                        mat-icon-button
+                        (click)="actionTriggered(actionType.EDIT, row.id)"
+                    >
+                        <mat-icon matTooltip="Edit Row" aria-hidden="false" aria-label="Edit row"
+                            >edit</mat-icon
+                        >
+                    </button>
+                    <button
+                        *ngSwitchCase="actionType.DELETE"
+                        type="button"
+                        mat-icon-button
+                        (click)="actionTriggered(actionType.DELETE, row.id)"
+                    >
+                        <mat-icon
+                            matTooltip="Delete Row"
+                            aria-hidden="false"
+                            aria-label="Delete row"
+                            >delete</mat-icon
+                        >
+                    </button>
+                    <button
+                        *ngSwitchCase="actionType.VIEW"
+                        type="button"
+                        mat-icon-button
+                        (click)="actionTriggered(actionType.VIEW, row.id)"
+                    >
+                        <mat-icon matTooltip="View Row" aria-hidden="false" aria-label="View row"
+                            >visibility</mat-icon
+                        >
+                    </button>
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

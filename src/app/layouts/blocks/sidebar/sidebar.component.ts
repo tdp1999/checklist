@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Category } from 'src/app/common/schema/category';
+import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
 import { SidenavService } from 'src/app/common/service/sidenav.service';
 import { SubSink } from 'subsink';
 
@@ -18,7 +19,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     categoryList$!: Observable<Category[]>;
 
-    constructor(private sidebarService: SidenavService) {}
+    constructor(
+        private sidebarService: SidenavService,
+        private _categoryService: ApiCategoryAbstractService
+    ) {}
 
     ngOnInit(): void {
         // Toggle sidebar on click
@@ -27,7 +31,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         });
 
         // Load categories
-        this.categoryList$ = this.sidebarService.getCategoryList();
+        this.categoryList$ = this._categoryService.getCategoryList();
     }
 
     ngOnDestroy(): void {
