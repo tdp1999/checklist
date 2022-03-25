@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Category } from 'src/app/common/schema/category';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
 import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
+import { CustomDialogComponent } from 'src/app/shared-components/custom-dialog/custom-dialog.component';
 
 export interface PeriodicElement {
     id: number;
@@ -21,6 +25,7 @@ export interface PeriodicElement {
 export class CategoryComponent implements OnInit {
     public actionType = ActionType;
     public categories$!: Observable<Category[]>;
+    public displayedColumn = ['id', 'name', 'slug', 'completePercentage'];
     public columns: Column[] = [
         {
             columnDef: 'id',
@@ -43,9 +48,8 @@ export class CategoryComponent implements OnInit {
             cell: (element: any) => `${element.completePercentage}`,
         },
     ];
-    public displayedColumn = ['id', 'name', 'slug', 'completePercentage'];
 
-    constructor(private _categoryService: ApiCategoryAbstractService) {}
+    constructor(private _categoryService: ApiCategoryAbstractService, private _dialog: MatDialog) {}
 
     ngOnInit(): void {
         this.categories$ = this._categoryService.getCategoryList();
@@ -56,7 +60,12 @@ export class CategoryComponent implements OnInit {
 
         switch (type) {
             case ActionType.EDIT:
-                console.log('edit', payload);
+                // Call API to get data from payload
+                this._categoryService.retrieveCategoryByID(payload).subscribe((data: any) => {
+                    this._dialog.open(CustomDialogComponent, {
+                        data: { action: this.actionType.EDIT, ...data },
+                    });
+                });
                 break;
             case ActionType.DELETE:
                 console.log('delete', payload);
@@ -65,5 +74,25 @@ export class CategoryComponent implements OnInit {
                 console.log('view', payload);
                 break;
         }
+    }
+
+    addCategory(): void {
+        // https://stackoverflow.com/questions/2236747/what-is-the-use-of-the-javascript-bind-method
+        this._dialog.open(CustomDialogComponent, {
+            data: {
+                action: this.actionType.CREATE,
+                validateSlug: this.validateSlug,
+                thisRef: this,
+            },
+        });
+    }
+
+    // Async validator that checks if the slug is unique when category is created
+    validateSlug(control: AbstractControl): Observable<ValidationErrors | null> {
+        return this._categoryService.retrieveCategoryBySlug(control.value).pipe(
+            map((category: [Category]) => {
+                return category[0] ? { slugExists: true } : null;
+            })
+        );
     }
 }

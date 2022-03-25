@@ -1,0 +1,18 @@
+<form [formGroup]="form">
+    <h1 mat-dialog-title>{{ title }}</h1>
+    <div mat-dialog-content>
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input formControlName="name" matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Slug</mat-label>
+            <input formControlName="slug" matInput />
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button type="submit" mat-button mat-dialog-close cdkFocusInitial>{{ submitText }}</button>
+        <button type="submit" mat-button (click)="onNoClick()">Cancel</button>
+    </div>
+</form>

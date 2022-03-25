@@ -1,4 +1,14 @@
 <div *ngIf="categories$ | async as categories" class="container">
+    <button
+        title="Add category"
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="addCategory()"
+    >
+        Add Category
+    </button>
+
     <app-datatable
         [columns]="columns"
         [dataSource]="categories"
