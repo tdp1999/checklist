@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, timer } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Category } from 'src/app/common/schema/category';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
@@ -88,11 +88,16 @@ export class CategoryComponent implements OnInit {
     }
 
     // Async validator that checks if the slug is unique when category is created
+    // Note: Cannot use debounceTime, distinctUntilChanged or delay
     validateSlug(control: AbstractControl): Observable<ValidationErrors | null> {
-        return this._categoryService.retrieveCategoryBySlug(control.value).pipe(
-            map((category: [Category]) => {
-                return category[0] ? { slugExists: true } : null;
-            })
+        return timer(300).pipe(
+            switchMap(() =>
+                this._categoryService.retrieveCategoryBySlug(control.value).pipe(
+                    map((category: [Category]) => {
+                        return category[0] ? { slugExists: true } : null;
+                    })
+                )
+            )
         );
     }
 }

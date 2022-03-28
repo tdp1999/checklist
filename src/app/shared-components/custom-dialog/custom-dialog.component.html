@@ -1,9 +1,10 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="submitForm()">
     <h1 mat-dialog-title>{{ title }}</h1>
-    <div mat-dialog-content>
+    <div class="dialog-content" mat-dialog-content>
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
             <input formControlName="name" matInput />
+            <mat-error *ngIf="f['name']">Error! Pipe</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
@@ -12,7 +13,11 @@
         </mat-form-field>
     </div>
     <div mat-dialog-actions>
-        <button type="submit" mat-button mat-dialog-close cdkFocusInitial>{{ submitText }}</button>
-        <button type="submit" mat-button (click)="onNoClick()">Cancel</button>
+        <button type="submit" mat-button mat-dialog-close [disabled]="!form.valid">
+            {{ submitText }}
+        </button>
+        <button type="submit" mat-button mat-dialog-close>Cancel</button>
     </div>
+
+    {{ changeDetectionCheck() }}
 </form>

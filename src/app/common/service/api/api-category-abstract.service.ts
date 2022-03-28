@@ -18,7 +18,7 @@ export class ApiCategoryAbstractService {
     }
 
     retrieveCategoryBySlug(slug: string): Observable<[Category]> {
-        console.log('Trigger API call');
+        console.log(slug);
         return this._api.get(`category?slug=${slug}`);
     }
 }

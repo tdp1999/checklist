@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -7,19 +7,25 @@ import {
     Validators,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
+import { SubSink } from 'subsink';
 
 @Component({
     selector: 'app-custom-dialog',
     templateUrl: './custom-dialog.component.html',
     styleUrls: ['./custom-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomDialogComponent implements OnInit {
+export class CustomDialogComponent implements OnInit, OnDestroy {
     public form!: FormGroup;
 
     public title = '';
     public submitText = 'OK';
+
+    public formSubmitSubject$ = new Subject();
+    private _subs = new SubSink();
 
     constructor(
         private _fb: FormBuilder,
@@ -27,15 +33,18 @@ export class CustomDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {}
 
+    // Life cycle hooks
     ngOnInit(): void {
         switch (this.data.action) {
             case ActionType.CREATE:
-                console.log(this.data.validateSlug);
+                // https://stackoverflow.com/questions/2236747/what-is-the-use-of-the-javascript-bind-method
+                this.title = 'Create New Category';
+                this.submitText = 'Add';
                 this.form = this._fb.group({
-                    name: [''],
+                    name: ['', [Validators.required]],
                     slug: [
                         '',
-                        Validators.compose([Validators.required]),
+                        [Validators.required],
                         this.data.validateSlug.bind(this.data.thisRef),
                     ],
                     completePercentage: [0],
@@ -55,8 +64,29 @@ export class CustomDialogComponent implements OnInit {
         }
     }
 
+    ngOnDestroy(): void {
+        this._subs.unsubscribe();
+    }
+
+    // Form Related Methods
+
+    // Form Gettter
+    get f(): { [key: string]: AbstractControl } {
+        return this.form.controls;
+    }
+
     onNoClick() {
         console.log('no');
         this._dialogRef.close();
+    }
+
+    submitForm() {
+        console.log('submit', this.form.value);
+        this._dialogRef.close(this.form.value);
+    }
+
+    // Helper
+    changeDetectionCheck() {
+        console.log('change');
     }
 }
