@@ -9,13 +9,21 @@
         Add Category
     </button>
 
+    <button
+        title="Reload category"
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="categorySubject$.next(true)"
+    >
+        Reload category
+    </button>
+
     <app-datatable
         [columns]="columns"
         [dataSource]="categories"
         [displayedColumns]="displayedColumn"
-        [actions]="[actionType.EDIT, actionType.DELETE, actionType.VIEW]"
+        [actions]="[actionType.EDIT, actionType.DELETE]"
         (onActionTriggered)="onActionTriggered($event)"
     ></app-datatable>
 </div>
-
-<div class="bg-red-500 text-white">Test button</div>

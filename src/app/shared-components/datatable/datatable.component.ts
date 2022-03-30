@@ -1,11 +1,15 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
+    NgZone,
+    OnChanges,
     OnInit,
     Output,
+    SimpleChange,
     ViewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -19,7 +23,7 @@ import { Column } from 'src/app/common/schema/datatable/Column';
     styleUrls: ['./datatable.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatatableComponent implements OnInit, AfterViewInit {
+export class DatatableComponent implements OnChanges, OnInit, AfterViewInit {
     @Input() columns!: Column[];
     @Input() dataSource!: any[];
     @Input() displayedColumns!: string[];
@@ -34,16 +38,22 @@ export class DatatableComponent implements OnInit, AfterViewInit {
     public data: any = [];
     public actionType = ActionType;
 
-    constructor() {}
+    constructor(private _cdr: ChangeDetectorRef, private _zone: NgZone) {}
+
+    ngOnChanges(changes: any): void {
+        // DataSource is immutable, so we need to create a new instance to update the table
+        this.data = new MatTableDataSource<any>(this.dataSource);
+    }
 
     ngOnInit(): void {
-        this.data = new MatTableDataSource<any>(this.dataSource);
-
         if (this.actions.length > 0) this.displayedColumns = [...this.displayedColumns, 'action'];
     }
 
     ngAfterViewInit(): void {
         this.data.paginator = this.paginator;
+        // this._zone.runOutsideAngular(() => {
+        //     window.document.addEventListener('mousemove', () => {});
+        // });
     }
 
     actionTriggered(type: ActionType, elementId: string): void {
@@ -51,5 +61,9 @@ export class DatatableComponent implements OnInit, AfterViewInit {
             type,
             payload: elementId,
         });
+    }
+
+    checkChangeDetection() {
+        console.log('change');
     }
 }

@@ -11,15 +11,16 @@
             <mat-label>Slug</mat-label>
             <input formControlName="slug" matInput />
         </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Textarea</mat-label>
+            <textarea formArrayName="description" matInput></textarea>
+        </mat-form-field>
     </div>
     <div mat-dialog-actions>
         <button type="submit" mat-button mat-dialog-close [disabled]="!form.valid">
             {{ submitText }}
         </button>
-        <button type="submit" mat-button mat-dialog-close>Cancel</button>
+        <button type="button" mat-button mat-dialog-close>Cancel</button>
     </div>
-
-    {{ changeDetectionCheck() }}
 </form>
-
-<div class="bg-black">Test button</div>

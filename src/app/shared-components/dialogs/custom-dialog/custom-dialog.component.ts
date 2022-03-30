@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnDestroy,
+    OnInit,
+} from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -24,11 +31,11 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
     public title = '';
     public submitText = 'OK';
 
-    public formSubmitSubject$ = new Subject();
     private _subs = new SubSink();
 
     constructor(
         private _fb: FormBuilder,
+        private _cdr: ChangeDetectorRef,
         private _dialogRef: MatDialogRef<CustomDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {}
@@ -48,6 +55,7 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
                         this.data.validateSlug.bind(this.data.thisRef),
                     ],
                     completePercentage: [0],
+                    description: [''],
                 });
                 break;
             case ActionType.EDIT:
@@ -75,18 +83,8 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
         return this.form.controls;
     }
 
-    onNoClick() {
-        console.log('no');
-        this._dialogRef.close();
-    }
-
     submitForm() {
-        console.log('submit', this.form.value);
-        this._dialogRef.close(this.form.value);
-    }
-
-    // Helper
-    changeDetectionCheck() {
-        console.log('change');
+        this.data.addCategory.bind(this.data.thisRef)(this.form.value);
+        this._cdr.markForCheck();
     }
 }

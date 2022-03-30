@@ -21,4 +21,12 @@ export class ApiCategoryAbstractService {
         console.log(slug);
         return this._api.get(`category?slug=${slug}`);
     }
+
+    addCategory(category: Category): Observable<Category> {
+        return this._api.post('category', category);
+    }
+
+    deleteCategoryByID(id: string): Observable<any> {
+        return this._api.delete(`category/${id}`);
+    }
 }

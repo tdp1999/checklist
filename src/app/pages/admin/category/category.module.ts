@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common';
 import { CategoryRoutingModule } from './category-routing.module';
 import { CategoryComponent } from './category.component';
 import { DatatableModule } from 'src/app/shared-components/datatable/datatable.module';
-import { CustomDialogModule } from 'src/app/shared-components/custom-dialog/custom-dialog.module';
+
+// Dialogs
+import { CustomDialogModule } from 'src/app/shared-components/dialogs/custom-dialog/custom-dialog.module';
+import { ConfirmDialogModule } from 'src/app/shared-components/dialogs/confirm-dialog/confirm-dialog.module';
 
 // Import Material modules
 import { MatButtonModule } from '@angular/material/button';
@@ -15,8 +18,9 @@ import { MatButtonModule } from '@angular/material/button';
         CommonModule,
         CategoryRoutingModule,
         DatatableModule,
-        CustomDialogModule,
         MatButtonModule,
+        CustomDialogModule,
+        ConfirmDialogModule,
     ],
 })
 export class CategoryModule {}

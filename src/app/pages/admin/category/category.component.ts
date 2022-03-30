@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, timer } from 'rxjs';
+import { BehaviorSubject, Observable, of, timer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Category } from 'src/app/common/schema/category';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
 import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
-import { CustomDialogComponent } from 'src/app/shared-components/custom-dialog/custom-dialog.component';
+
+import { CustomDialogComponent } from 'src/app/shared-components/dialogs/custom-dialog/custom-dialog.component';
+import { ConfirmDialogComponent } from 'src/app/shared-components/dialogs/confirm-dialog/confirm-dialog.component';
+import { SubSink } from 'subsink';
 
 export interface PeriodicElement {
     id: number;
@@ -22,7 +25,8 @@ export interface PeriodicElement {
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss'],
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, OnDestroy {
+    private _sub = new SubSink();
     public actionType = ActionType;
     public categories$!: Observable<Category[]>;
     public displayedColumn = ['id', 'name', 'slug', 'completePercentage'];
@@ -48,11 +52,15 @@ export class CategoryComponent implements OnInit {
             cell: (element: any) => `${element.completePercentage}`,
         },
     ];
+    public categorySubject$ = new BehaviorSubject<boolean>(true);
 
     constructor(private _categoryService: ApiCategoryAbstractService, private _dialog: MatDialog) {}
 
     ngOnInit(): void {
-        this.categories$ = this._categoryService.getCategoryList();
+        // Use BehaviorSubject to notify the table to update
+        this.categories$ = this.categorySubject$
+            .asObservable()
+            .pipe(switchMap(() => this._categoryService.getCategoryList()));
     }
 
     onActionTriggered(event: any): void {
@@ -61,17 +69,35 @@ export class CategoryComponent implements OnInit {
         switch (type) {
             case ActionType.EDIT:
                 // Call API to get data from payload
-                this._categoryService.retrieveCategoryByID(payload).subscribe((data: any) => {
-                    this._dialog.open(CustomDialogComponent, {
-                        data: { action: this.actionType.EDIT, ...data },
+                this._sub.sink = this._categoryService
+                    .retrieveCategoryByID(payload)
+                    .subscribe((data: any) => {
+                        this._dialog.open(CustomDialogComponent, {
+                            data: { action: this.actionType.EDIT, ...data },
+                        });
                     });
-                });
                 break;
             case ActionType.DELETE:
-                console.log('delete', payload);
-                break;
-            case ActionType.VIEW:
-                console.log('view', payload);
+                let confirmDialogRef = this._dialog.open(ConfirmDialogComponent, {
+                    data: {
+                        title: 'Delete Category',
+                        message: 'Are you sure you want to delete this category?',
+                        submitText: 'Delete',
+                    },
+                });
+
+                this._sub.sink = confirmDialogRef
+                    .afterClosed()
+                    .pipe(
+                        switchMap((result) => {
+                            return result === 'Confirmed'
+                                ? this._categoryService.deleteCategoryByID(payload)
+                                : of(null);
+                        })
+                    )
+                    .subscribe((data) => {
+                        this.categorySubject$.next(true);
+                    });
                 break;
         }
     }
@@ -81,9 +107,16 @@ export class CategoryComponent implements OnInit {
         this._dialog.open(CustomDialogComponent, {
             data: {
                 action: this.actionType.CREATE,
+                addCategory: this.onAddCategory,
                 validateSlug: this.validateSlug,
                 thisRef: this,
             },
+        });
+    }
+
+    onAddCategory(category: Category): void {
+        this._categoryService.addCategory(category).subscribe((category) => {
+            this.categorySubject$.next(true);
         });
     }
 
@@ -99,5 +132,9 @@ export class CategoryComponent implements OnInit {
                 )
             )
         );
+    }
+
+    ngOnDestroy(): void {
+        this._sub.unsubscribe();
     }
 }
