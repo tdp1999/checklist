@@ -19,6 +19,16 @@ import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { SubSink } from 'subsink';
 
+export interface DialogData {
+    action: ActionType;
+    callback?: (data: any) => void;
+    validateList?: {
+        [key: string]: (control: AbstractControl) => Observable<ValidationErrors | null>;
+    };
+    thisRef?: any;
+    payload?: any;
+}
+
 @Component({
     selector: 'app-custom-dialog',
     templateUrl: './custom-dialog.component.html',
@@ -37,7 +47,7 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
         private _fb: FormBuilder,
         private _cdr: ChangeDetectorRef,
         private _dialogRef: MatDialogRef<CustomDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: DialogData
     ) {}
 
     // Life cycle hooks
@@ -52,7 +62,7 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
                     slug: [
                         '',
                         [Validators.required],
-                        this.data.validateSlug.bind(this.data.thisRef),
+                        this.data.validateList?.slug.bind(this.data.thisRef),
                     ],
                     completePercentage: [0],
                     description: [''],
@@ -63,10 +73,11 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
                 this.submitText = 'Save';
 
                 this.form = this._fb.group({
-                    id: [this.data.id],
-                    name: [this.data.name],
-                    slug: [this.data.slug],
-                    completePercentage: [this.data.completePercentage],
+                    id: [this.data.payload.id],
+                    name: [this.data.payload.name],
+                    slug: [this.data.payload.slug],
+                    completePercentage: [this.data.payload.completePercentage],
+                    description: [this.data.payload.description],
                 });
                 break;
         }
@@ -84,7 +95,7 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
     }
 
     submitForm() {
-        this.data.addCategory.bind(this.data.thisRef)(this.form.value);
+        this.data.callback?.bind(this.data.thisRef)(this.form.value);
         this._cdr.markForCheck();
     }
 }

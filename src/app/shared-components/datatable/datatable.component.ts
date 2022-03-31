@@ -43,6 +43,7 @@ export class DatatableComponent implements OnChanges, OnInit, AfterViewInit {
     ngOnChanges(changes: any): void {
         // DataSource is immutable, so we need to create a new instance to update the table
         this.data = new MatTableDataSource<any>(this.dataSource);
+        this.data.paginator = this.paginator;
     }
 
     ngOnInit(): void {
@@ -50,10 +51,8 @@ export class DatatableComponent implements OnChanges, OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        // Connect the table to the paginator
         this.data.paginator = this.paginator;
-        // this._zone.runOutsideAngular(() => {
-        //     window.document.addEventListener('mousemove', () => {});
-        // });
     }
 
     actionTriggered(type: ActionType, elementId: string): void {
@@ -61,9 +60,5 @@ export class DatatableComponent implements OnChanges, OnInit, AfterViewInit {
             type,
             payload: elementId,
         });
-    }
-
-    checkChangeDetection() {
-        console.log('change');
     }
 }

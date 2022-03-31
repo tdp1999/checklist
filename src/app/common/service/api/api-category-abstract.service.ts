@@ -26,6 +26,10 @@ export class ApiCategoryAbstractService {
         return this._api.post('category', category);
     }
 
+    updateCategory(category: Category): Observable<Category> {
+        return this._api.put(`category/${category.id}`, category);
+    }
+
     deleteCategoryByID(id: string): Observable<any> {
         return this._api.delete(`category/${id}`);
     }

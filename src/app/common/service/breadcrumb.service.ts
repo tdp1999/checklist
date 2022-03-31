@@ -43,6 +43,8 @@ export class BreadcrumbService {
             // Add breadcrumb to the list
             if (route.data.breadcrumb && route.url.length > 0) {
                 const breadcrumb = {
+                    // Because the resolve function only return slug (section) and not calling api,
+                    // we need to convert slug to title.
                     label: unslug(this._getLabel(route.data)),
                     url: '/' + routeUrl.join('/'),
                 };

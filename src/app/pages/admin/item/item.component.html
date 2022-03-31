@@ -1,2 +1,20 @@
-<p>item works!</p>
-<app-datatable></app-datatable>
+<div *ngIf="items$ | async as items" class="container mx-auto my-2">
+    <button
+        class="mb-2"
+        title="Add item"
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="onActionTriggered({ type: actionType.CREATE, payload: null })"
+    >
+        Add Item
+    </button>
+
+    <app-datatable
+        [columns]="columns"
+        [dataSource]="items"
+        [displayedColumns]="displayedColumn"
+        [actions]="[actionType.VIEW, actionType.EDIT, actionType.DELETE]"
+        (onActionTriggered)="onActionTriggered($event)"
+    ></app-datatable>
+</div>

@@ -4,19 +4,9 @@
         type="button"
         mat-raised-button
         color="primary"
-        (click)="addCategory()"
+        (click)="onActionTriggered({ type: actionType.CREATE, payload: null })"
     >
         Add Category
-    </button>
-
-    <button
-        title="Reload category"
-        type="button"
-        mat-raised-button
-        color="primary"
-        (click)="categorySubject$.next(true)"
-    >
-        Reload category
     </button>
 
     <app-datatable

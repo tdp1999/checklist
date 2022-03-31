@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-fluid-layout',
-  templateUrl: './fluid-layout.component.html',
-  styleUrls: ['./fluid-layout.component.scss']
+    selector: 'app-fluid-layout',
+    templateUrl: './fluid-layout.component.html',
+    styleUrls: ['./fluid-layout.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FluidLayoutComponent implements OnInit {
+    constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+    ngOnInit(): void {}
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Observable, of, timer } from 'rxjs';
@@ -11,6 +11,7 @@ import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-categ
 import { CustomDialogComponent } from 'src/app/shared-components/dialogs/custom-dialog/custom-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared-components/dialogs/confirm-dialog/confirm-dialog.component';
 import { SubSink } from 'subsink';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface PeriodicElement {
     id: number;
@@ -24,6 +25,7 @@ export interface PeriodicElement {
     selector: 'app-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryComponent implements OnInit, OnDestroy {
     private _sub = new SubSink();
@@ -54,8 +56,13 @@ export class CategoryComponent implements OnInit, OnDestroy {
     ];
     public categorySubject$ = new BehaviorSubject<boolean>(true);
 
-    constructor(private _categoryService: ApiCategoryAbstractService, private _dialog: MatDialog) {}
+    constructor(
+        private _categoryService: ApiCategoryAbstractService,
+        private _dialog: MatDialog,
+        private _snackbar: MatSnackBar
+    ) {}
 
+    // ---------- CYCLE HOOKs ---------- //
     ngOnInit(): void {
         // Use BehaviorSubject to notify the table to update
         this.categories$ = this.categorySubject$
@@ -63,62 +70,100 @@ export class CategoryComponent implements OnInit, OnDestroy {
             .pipe(switchMap(() => this._categoryService.getCategoryList()));
     }
 
+    ngOnDestroy(): void {
+        this._sub.unsubscribe();
+    }
+
+    // ---------- MAIN FUNCTION ---------- //
     onActionTriggered(event: any): void {
         let { type, payload } = event;
 
         switch (type) {
-            case ActionType.EDIT:
-                // Call API to get data from payload
-                this._sub.sink = this._categoryService
-                    .retrieveCategoryByID(payload)
-                    .subscribe((data: any) => {
-                        this._dialog.open(CustomDialogComponent, {
-                            data: { action: this.actionType.EDIT, ...data },
-                        });
-                    });
+            case ActionType.CREATE:
+                this.addCategory();
                 break;
-            case ActionType.DELETE:
-                let confirmDialogRef = this._dialog.open(ConfirmDialogComponent, {
-                    data: {
-                        title: 'Delete Category',
-                        message: 'Are you sure you want to delete this category?',
-                        submitText: 'Delete',
-                    },
-                });
 
-                this._sub.sink = confirmDialogRef
-                    .afterClosed()
-                    .pipe(
-                        switchMap((result) => {
-                            return result === 'Confirmed'
-                                ? this._categoryService.deleteCategoryByID(payload)
-                                : of(null);
-                        })
-                    )
-                    .subscribe((data) => {
-                        this.categorySubject$.next(true);
-                    });
+            case ActionType.EDIT:
+                this.editCategory(payload);
+                break;
+
+            case ActionType.DELETE:
+                this.deleteCategory(payload);
                 break;
         }
     }
 
+    // ---------- CREATE ---------- //
     addCategory(): void {
         // https://stackoverflow.com/questions/2236747/what-is-the-use-of-the-javascript-bind-method
         this._dialog.open(CustomDialogComponent, {
             data: {
                 action: this.actionType.CREATE,
-                addCategory: this.onAddCategory,
-                validateSlug: this.validateSlug,
+                callback: this.onAddCategory,
+                validateList: {
+                    slug: this.validateSlug,
+                },
                 thisRef: this,
             },
         });
     }
 
     onAddCategory(category: Category): void {
-        this._categoryService.addCategory(category).subscribe((category) => {
+        this._sub.sink = this._categoryService.addCategory(category).subscribe((category) => {
             this.categorySubject$.next(true);
+            this._snackbar.open('Category added', 'Dismiss', { duration: 2000 });
         });
     }
+
+    // ---------- EDIT ---------- //
+    editCategory(id: string): void {
+        this._sub.sink = this._categoryService
+            .retrieveCategoryByID(id)
+            .subscribe((category: any) => {
+                this._dialog.open(CustomDialogComponent, {
+                    data: {
+                        action: this.actionType.EDIT,
+                        payload: category,
+                        callback: this.onEditCategory,
+                        thisRef: this,
+                    },
+                });
+            });
+    }
+
+    onEditCategory(category: Category): void {
+        this._sub.sink = this._categoryService.updateCategory(category).subscribe((category) => {
+            this.categorySubject$.next(true);
+            this._snackbar.open('Category updated', 'Dismiss', { duration: 2000 });
+        });
+    }
+
+    // ---------- DELETE ---------- //
+    deleteCategory(id: string): void {
+        let confirmDialogRef = this._dialog.open(ConfirmDialogComponent, {
+            data: {
+                title: 'Delete Category',
+                message: 'Are you sure you want to delete this category?',
+                submitText: 'Delete',
+            },
+        });
+
+        this._sub.sink = confirmDialogRef
+            .afterClosed()
+            .pipe(
+                switchMap((result) => {
+                    return result === 'Confirmed'
+                        ? this._categoryService.deleteCategoryByID(id)
+                        : of(null);
+                })
+            )
+            .subscribe((data) => {
+                this.categorySubject$.next(true);
+                this._snackbar.open('Category deleted', 'Dismiss', { duration: 2000 });
+            });
+    }
+
+    // ---------- HELPER ---------- //
 
     // Async validator that checks if the slug is unique when category is created
     // Note: Cannot use debounceTime, distinctUntilChanged or delay
@@ -132,9 +177,5 @@ export class CategoryComponent implements OnInit, OnDestroy {
                 )
             )
         );
-    }
-
-    ngOnDestroy(): void {
-        this._sub.unsubscribe();
     }
 }

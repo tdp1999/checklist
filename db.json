@@ -64,11 +64,11 @@
       "description": ""
     },
     {
+      "id": 10,
       "name": "template",
       "slug": "template",
       "completePercentage": 0,
-      "description": "",
-      "id": 10
+      "description": ""
     }
   ],
   "item": [
@@ -76,17 +76,27 @@
       "id": "asdkjahsdk",
       "title": "release resources in ngOnDestroy",
       "category": "2",
-      "content": "",
+      "idContent": "anbs",
       "isDone": false,
       "slug": "release-resources-in-ngondestroy"
     },
     {
-      "id": "asdkjahsdk",
+      "id": "asdkjsahsdk",
       "title": "use latest version of everything",
       "category": "3",
-      "content": "",
+      "idContent": "anb334",
       "isDone": false,
       "slug": "use-latest-version-of-everything"
+    }
+  ],
+  "content": [
+    {
+      "id": "anbs",
+      "data": "ldkfjasdlkfjsldkfj asldkfjaslkdfj"
+    },
+    {
+      "id": "anb334",
+      "data": "ldkfjasdlkfjsldkfj asldkfjaslkdfj"
     }
   ]
 }

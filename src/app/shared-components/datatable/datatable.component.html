@@ -1,5 +1,4 @@
 <div class="mat-elevation-z8">
-    {{ checkChangeDetection() }}
     <table mat-table [dataSource]="data" class="demo-table">
         <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
             <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
