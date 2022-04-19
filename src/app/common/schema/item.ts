@@ -1,8 +1,9 @@
 export interface Item {
     id: string;
-    title: string;
-    idContent: string;
-    categoryId: string;
-    isDone: boolean;
+    name: string;
     slug: string;
+    categoryId: string;
+    // idContent: string;
+    content: string;
+    isDone: boolean;
 }

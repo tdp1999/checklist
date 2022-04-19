@@ -1,9 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
 import { Item } from 'src/app/common/schema/item';
 import { ApiItemAbstractService } from 'src/app/common/service/api/api-item-abstract.service';
+import { SubSink } from 'subsink';
+import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 
 @Component({
     selector: 'app-item',
@@ -17,36 +23,43 @@ export class ItemComponent implements OnInit {
     public actionType = ActionType;
 
     // Config variables
-    public displayedColumn = ['id', 'title', 'category', 'contentID', 'slug'];
+    public displayedColumn = ['id', 'name', 'category', 'content', 'slug'];
     public columns: Column[] = [
         {
             columnDef: 'id',
             header: 'ID',
-            cell: (element: any) => `${element.id}`,
+            cell: (element: Item) => `${element.id}`,
         },
         {
-            columnDef: 'title',
-            header: 'Title',
-            cell: (element: any) => `${element.title}`,
+            columnDef: 'name',
+            header: 'Name',
+            cell: (element: Item) => `${element.name}`,
         },
         {
             columnDef: 'category',
             header: 'Category',
-            cell: (element: any) => `${element.category}`,
+            cell: (element: Item) => `${element.categoryId}`,
         },
         {
-            columnDef: 'contentID',
-            header: 'Content ID',
-            cell: (element: any) => `${element.idContent}`,
+            columnDef: 'content',
+            header: 'Content',
+            cell: (element: Item) => `${element.content}`,
         },
         {
             columnDef: 'slug',
             header: 'Slug',
-            cell: (element: any) => `${element.slug}`,
+            cell: (element: Item) => `${element.slug}`,
         },
     ];
 
-    constructor(private _itemService: ApiItemAbstractService) {}
+    // Private variables
+    private _sub = new SubSink();
+
+    constructor(
+        private _itemService: ApiItemAbstractService,
+        private _dialog: MatDialog,
+        private _snackbar: MatSnackBar
+    ) {}
 
     ngOnInit(): void {
         this.items$ = this._itemService.getItemList();
@@ -82,7 +95,25 @@ export class ItemComponent implements OnInit {
 
     // ---------- CREATE ---------- //
     addItem(): void {
-        console.log('addItem');
+        console.log('add item');
+
+        this._dialog.open(ItemDialogComponent, {
+            data: {
+                action: this.actionType.CREATE,
+                callback: this.onAddItem,
+                // validateList: {
+                //     slug: this.validateSlug,
+                // },
+                thisRef: this,
+            },
+        });
+    }
+
+    onAddItem() {
+        // this._sub.sink = this._itemService.subscribe((category) => {
+        //     this.categorySubject$.next(true);
+        //     this._snackbar.open('Category added', 'Dismiss', { duration: 2000 });
+        // });
     }
 
     // ---------- EDIT ---------- //
@@ -96,4 +127,18 @@ export class ItemComponent implements OnInit {
     }
 
     // ---------- HELPER ---------- //
+
+    // Async validator that checks if the slug is unique when category is created
+    // Note: Cannot use debounceTime, distinctUntilChanged or delay
+    // validateSlug(control: AbstractControl): Observable<ValidationErrors | null> {
+    //     return timer(300).pipe(
+    //         switchMap(() =>
+    //             this._itemService.retrieveCategoryBySlug(control.value).pipe(
+    //                 map((item: [Item]) => {
+    //                     return item[0] ? { slugExists: true } : null;
+    //                 })
+    //             )
+    //         )
+    //     );
+    // }
 }

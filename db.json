@@ -74,17 +74,17 @@
   "item": [
     {
       "id": "asdkjahsdk",
-      "title": "release resources in ngOnDestroy",
-      "category": "2",
-      "idContent": "anbs",
+      "name": "release resources in ngOnDestroy",
+      "categoryId": "2",
+      "content": "anbs",
       "isDone": false,
       "slug": "release-resources-in-ngondestroy"
     },
     {
-      "id": "asdkjsahsdk",
-      "title": "use latest version of everything",
-      "category": "3",
-      "idContent": "anb334",
+      "id": "asdkjsahsdks",
+      "name": "use latest version of everything",
+      "categoryId": "3",
+      "content": "anb334",
       "isDone": false,
       "slug": "use-latest-version-of-everything"
     }

@@ -1,0 +1,35 @@
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+    <h1 mat-dialog-title>{{ title }}</h1>
+    <div class="dialog-content" mat-dialog-content>
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input formControlName="name" matInput />
+            <mat-error *ngIf="f['name']">Error! Pipe</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Slug</mat-label>
+            <input formControlName="slug" matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Category</mat-label>
+            <mat-select formArrayName="categoryId">
+                <mat-option *ngFor="let category of data.category" [value]="category.id">{{
+                    category.name
+                }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Textarea</mat-label>
+            <textarea placeholder="Content" formArrayName="content" matInput></textarea>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button type="submit" mat-button mat-dialog-close [disabled]="!form.valid">
+            {{ submitText }}
+        </button>
+        <button type="button" mat-button mat-dialog-close>Cancel</button>
+    </div>
+</form>
