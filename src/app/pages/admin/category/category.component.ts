@@ -62,7 +62,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         private _snackbar: MatSnackBar
     ) {}
 
-    // ---------- CYCLE HOOKs ---------- //
+    // ---------- CYCLE HOOKS ---------- //
     ngOnInit(): void {
         // Use BehaviorSubject to notify the table to update
         this.categories$ = this.categorySubject$

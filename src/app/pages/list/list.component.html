@@ -1,3 +1,10 @@
-<ng-container *ngFor="let item of checkList$ | async">
-    <a [routerLink]="['./', item.slug]">{{ item.name }}</a> <br />
+<ng-container *ngFor="let item of checkList$ | async; let i = index">
+    <div class="checklist-item" [class.checked]="item.isDone">
+        <mat-checkbox
+            [(ngModel)]="itemCheckboxList[i].isDone"
+            (ngModelChange)="onCheckboxChanges(itemCheckboxList[i])"
+        >
+            <a [routerLink]="['./', item.slug]">{{ item.name }}</a>
+        </mat-checkbox>
+    </div>
 </ng-container>

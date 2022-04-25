@@ -27,9 +27,9 @@ export class ApiPageListService {
         );
     };
 
-    // Get content base on cateogory id
+    // Get content base on category slug. It will call getCategoryId() first
     // {{ url }}item?category={{ params.section }}&_page=1&_limit=10
-    public getContentByCategory = (
+    public getContentByCategorySlug = (
         category: string,
         page: number,
         limit: number
@@ -40,7 +40,7 @@ export class ApiPageListService {
                     return throwError(ErrorMessage.CategoryNotFound);
                 } else {
                     const params = [
-                        { key: 'category', value: categoryId },
+                        { key: 'categoryId', value: categoryId },
                         { key: '_page', value: page },
                         { key: '_limit', value: limit },
                     ];

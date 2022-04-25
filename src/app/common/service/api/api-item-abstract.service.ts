@@ -13,12 +13,12 @@ export class ApiItemAbstractService {
         return this._api.get('item');
     }
 
-    retrieveItem(id: number): Observable<Item> {
+    retrieveItem(id: string): Observable<Item> {
         return this._api.get(`item/${id}`);
     }
 
-    retrieveItemBySlug(slug: string): Observable<Item> {
-        return this._api.get(`item?slug/${slug}`);
+    retrieveItemBySlug(slug: string): Observable<[Item]> {
+        return this._api.get(`item?slug=${slug}`);
     }
 
     addItem(item: Required<Item>): Observable<Item> {
@@ -29,7 +29,11 @@ export class ApiItemAbstractService {
         return this._api.put(`item/${item.id}`, item);
     }
 
-    deleteItem(id: number): Observable<Item> {
+    patchItem(item: Partial<Item>): Observable<Item> {
+        return this._api.patch(`item/${item.id}`, item);
+    }
+
+    deleteItemByID(id: string): Observable<Item> {
         return this._api.delete(`item/${id}`);
     }
 }

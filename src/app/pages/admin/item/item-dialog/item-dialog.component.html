@@ -14,7 +14,7 @@
 
         <mat-form-field appearance="fill">
             <mat-label>Category</mat-label>
-            <mat-select formArrayName="categoryId">
+            <mat-select formControlName="categoryId">
                 <mat-option *ngFor="let category of data.category" [value]="category.id">{{
                     category.name
                 }}</mat-option>
@@ -22,8 +22,8 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-            <mat-label>Textarea</mat-label>
-            <textarea placeholder="Content" formArrayName="content" matInput></textarea>
+            <mat-label>Content</mat-label>
+            <textarea placeholder="Content" formControlName="content" matInput></textarea>
         </mat-form-field>
     </div>
     <div mat-dialog-actions>

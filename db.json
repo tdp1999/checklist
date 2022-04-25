@@ -77,7 +77,7 @@
       "name": "release resources in ngOnDestroy",
       "categoryId": "2",
       "content": "anbs",
-      "isDone": false,
+      "isDone": true,
       "slug": "release-resources-in-ngondestroy"
     },
     {
@@ -85,8 +85,24 @@
       "name": "use latest version of everything",
       "categoryId": "3",
       "content": "anb334",
-      "isDone": false,
+      "isDone": true,
       "slug": "use-latest-version-of-everything"
+    },
+    {
+      "id": "0AYPiGn",
+      "name": "new item",
+      "slug": "abmasdasd",
+      "categoryId": 6,
+      "isDone": false,
+      "content": "asdas"
+    },
+    {
+      "id": "3Em8fIa",
+      "name": "thhundersss",
+      "slug": "abm",
+      "categoryId": 3,
+      "content": "asdaskdja",
+      "isDone": true
     }
   ],
   "content": [

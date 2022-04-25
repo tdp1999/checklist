@@ -9,7 +9,7 @@ import { ApiHttpService } from './api-http.service';
 export class ApiCategoryAbstractService {
     constructor(private _api: ApiHttpService) {}
 
-    getCategoryList() {
+    getCategoryList(): Observable<Category[]> {
         return this._api.get('category');
     }
 
@@ -18,7 +18,6 @@ export class ApiCategoryAbstractService {
     }
 
     retrieveCategoryBySlug(slug: string): Observable<[Category]> {
-        console.log(slug);
         return this._api.get(`category?slug=${slug}`);
     }
 

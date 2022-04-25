@@ -54,34 +54,19 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
 
     // Life cycle hooks
     ngOnInit(): void {
+        this._dialogRef.updateSize('60%', 'fit-content');
+
         switch (this.data.action) {
             case ActionType.CREATE:
                 // https://stackoverflow.com/questions/2236747/what-is-the-use-of-the-javascript-bind-method
                 this.title = 'Create New Item';
                 this.submitText = 'Add';
-                this.form = this._fb.group({
-                    name: ['', [Validators.required]],
-                    slug: [
-                        '',
-                        [Validators.required],
-                        this.data.validateList?.slug.bind(this.data.thisRef),
-                    ],
-                    categoryId: ['', [Validators.required]],
-                    content: ['', [Validators.required]],
-                    isDone: [false],
-                });
+                this.generateForm();
                 break;
             case ActionType.EDIT:
                 this.title = 'Edit Item';
                 this.submitText = 'Save';
-
-                this.form = this._fb.group({
-                    id: [this.data.payload?.id],
-                    name: [this.data.payload?.name],
-                    slug: [this.data.payload?.slug],
-                    categoryId: [this.data.payload?.categoryId],
-                    content: [this.data.payload?.content],
-                });
+                this.generateForm(this.data.payload);
                 break;
         }
     }
@@ -95,6 +80,25 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
     // Form Gettter
     get f(): { [key: string]: AbstractControl } {
         return this.form.controls;
+    }
+
+    // Form Generate
+    generateForm(editValue?: Item): void {
+        this.form = this._fb.group({
+            name: [editValue ? editValue.name : '', [Validators.required]],
+            slug: [
+                editValue ? editValue.slug : '',
+                [Validators.required],
+                this.data.validateList?.slug.bind(this.data.thisRef),
+            ],
+            categoryId: [editValue ? editValue.categoryId : '', [Validators.required]],
+            content: [editValue ? editValue.content : '', [Validators.required]],
+            isDone: [editValue ? editValue.isDone : false],
+        });
+
+        if (editValue) {
+            this.form.addControl('id', this._fb.control(editValue.id));
+        }
     }
 
     submitForm() {

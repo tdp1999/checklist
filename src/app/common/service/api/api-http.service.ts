@@ -40,6 +40,16 @@ export class ApiHttpService {
         this._httpClient.put(`${this._url}/${url}`, data, option);
 
     /**
+     *
+     * @param {string} url
+     * @param {any} data
+     * @param {any} option
+     * @returns {Observable<any>} Observable<any>
+     */
+    public patch = (url: string, data: any, option?: any): Observable<any> =>
+        this._httpClient.patch(`${this._url}/${url}`, data, option);
+
+    /**
      * @function delete
      * @param {string} url
      * @param {any} option
