@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, iif, Observable } from 'rxjs';
+import { EMPTY, iif, Observable, of } from 'rxjs';
 import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { Item } from 'src/app/common/schema/item';
 import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
@@ -35,9 +35,7 @@ export class ListComponent implements OnInit, OnDestroy {
         private _itemService: ApiItemAbstractService,
         private _router: Router,
         private _snackbar: MatSnackBar
-    ) {}
-
-    ngOnInit(): void {
+    ) {
         // Params
         this.checkList$ = this._activatedRoute.params.pipe(
             // Get content base on category
@@ -45,22 +43,39 @@ export class ListComponent implements OnInit, OnDestroy {
                 if (!params.section) {
                     this._categoryService.getCategoryList().subscribe((category) => {
                         this._router.navigate(['/checklist/', category[0].slug]);
-                        return EMPTY;
+                        return of([]);
                     });
                 }
 
-                return this._apiPageListService.getContentByCategorySlug(params.section, 1, 10);
+                return this._apiPageListService
+                    .getContentByCategorySlug(params.section, 1, 10)
+                    .pipe(
+                        catchError((error) => {
+                            this._snackbar.open(error.message, 'Dismiss', {
+                                duration: 2000,
+                            });
+                            return EMPTY;
+                        })
+                    );
             }),
+
             tap((itemList: Item[]) => {
+                if (!itemList) console.log('No item list');
+
                 this.itemCheckboxList = itemList.map((item) => {
                     return {
                         id: item.id,
                         isDone: item.isDone,
                     };
                 });
+            }),
+            finalize(() => {
+                console.log('Stream terminated');
             })
         );
+    }
 
+    ngOnInit(): void {
         // Data
         // this._subs.sink = this._activatedRoute.data.subscribe((data) => {});
     }

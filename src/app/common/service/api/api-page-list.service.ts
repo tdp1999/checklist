@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { ErrorMessage } from '../../constants/error-message';
 import { Item } from '../../schema/item';
@@ -37,7 +37,7 @@ export class ApiPageListService {
         return this.getCategoryId(category).pipe(
             switchMap((categoryId) => {
                 if (categoryId === null) {
-                    return throwError(ErrorMessage.CategoryNotFound);
+                    return throwError(new Error(ErrorMessage.CategoryNotFound));
                 } else {
                     const params = [
                         { key: 'categoryId', value: categoryId },

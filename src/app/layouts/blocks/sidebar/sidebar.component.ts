@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Category } from 'src/app/common/schema/category';
@@ -14,7 +20,6 @@ import { SubSink } from 'subsink';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
     opened!: boolean;
-    // subscription!: Subscription;
 
     private _sub = new SubSink();
 
@@ -22,13 +27,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     constructor(
         private sidebarService: SidenavService,
-        private _categoryService: ApiCategoryAbstractService
+        private _categoryService: ApiCategoryAbstractService,
+        private _cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
         // Toggle sidebar on click
         this._sub.sink = this.sidebarService.currentState.subscribe((state) => {
             this.opened = state;
+            this._cdr.markForCheck();
         });
 
         // Load categories

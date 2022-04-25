@@ -22,7 +22,6 @@
         "@angular/platform-browser-dynamic": "~13.2.4",
         "@angular/router": "~13.2.4",
         "rxjs": "~6.6.0",
-        "source-map-explorer": "^2.5.2",
         "subsink": "^1.0.2",
         "tslib": "^2.2.0",
         "zone.js": "~0.11.4"

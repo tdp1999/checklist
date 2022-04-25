@@ -9,6 +9,7 @@ export class SidenavService {
     constructor() {}
 
     toggleSidebarState() {
+        console.log('toggle!', this.isSidebarOpen.value);
         this.isSidebarOpen.next(!this.isSidebarOpen.value);
     }
 }
