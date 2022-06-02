@@ -1,15 +1,28 @@
-.breadcrumb {
-    display: flex;
-    border-bottom: 1px solid black;
+@import "tailwindcss/components";
 
-    &-item {
-        font-size: 20px;
-        line-height: 32px;
-        margin-right: 12px;
+// @layer components{
+//     .active {
+//         @apply text-blue-500;
+//     }
+// }
 
-        &.active {
-            font-weight: bold;
-            color: blue;
-        }
+@layer components {
+    .active {
+        @apply text-blue-500;
     }
 }
+
+// .breadcrumb {
+//     // display: flex;
+//     // border-bottom: 1px solid black;
+
+//     &-item {
+//         font-size: 20px;
+//         line-height: 32px;
+
+//         &.active {
+//             // font-weight: bold;
+//             color: blue;
+//         }
+//     }
+// }

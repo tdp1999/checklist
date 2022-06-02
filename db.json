@@ -4,7 +4,7 @@
       "id": 1,
       "name": "architecture",
       "slug": "architecture",
-      "completePercentage": 0,
+      "completePercentage": 33,
       "description": ""
     },
     {
@@ -18,7 +18,7 @@
       "id": 3,
       "name": "general",
       "slug": "general",
-      "completePercentage": 0,
+      "completePercentage": 50,
       "description": ""
     },
     {
@@ -77,7 +77,7 @@
       "name": "release resources in ngOnDestroy",
       "categoryId": "2",
       "content": "anbs",
-      "isDone": true,
+      "isDone": false,
       "slug": "release-resources-in-ngondestroy"
     },
     {
@@ -93,7 +93,7 @@
       "name": "new item",
       "slug": "abmasdasd",
       "categoryId": 6,
-      "isDone": false,
+      "isDone": true,
       "content": "asdas"
     },
     {
@@ -102,7 +102,31 @@
       "slug": "abm",
       "categoryId": 3,
       "content": "asdaskdja",
-      "isDone": true
+      "isDone": false
+    },
+    {
+      "name": "template",
+      "slug": "template",
+      "categoryId": 1,
+      "content": "Loave",
+      "isDone": false,
+      "id": "A7MexOG"
+    },
+    {
+      "name": "love2",
+      "slug": "love2",
+      "categoryId": 1,
+      "content": "Loave2",
+      "isDone": true,
+      "id": "07hWotB"
+    },
+    {
+      "name": "love3",
+      "slug": "love3",
+      "categoryId": 1,
+      "content": "loave2",
+      "isDone": false,
+      "id": "wZ2sGWx"
     }
   ],
   "content": [

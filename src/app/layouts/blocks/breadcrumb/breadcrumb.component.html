@@ -1,10 +1,14 @@
 <nav aria-label="breadcrumb" *ngIf="breadcrumbs$ | async as breadcrumbs">
-    <ol class="breadcrumb">
+    <ol class="flex pb-2 border-b-2 border-sky-400 border-solid">
         <li
             *ngFor="let breadcrumb of breadcrumbs; let last = last"
-            class="breadcrumb-item {{ last ? 'active' : '' }}"
+            class="flex items-center text-xl leading-8"
+            [ngClass]="{ active: last }"
         >
             <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+            <mat-icon *ngIf="!last" aria-hidden="false" aria-label="Breadcrumb Forward">
+                chevron_right
+            </mat-icon>
         </li>
     </ol>
 </nav>

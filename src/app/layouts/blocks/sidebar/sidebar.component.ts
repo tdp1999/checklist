@@ -6,7 +6,8 @@ import {
     OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { Category } from 'src/app/common/schema/category';
 import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
 import { SidenavService } from 'src/app/common/service/sidenav.service';
@@ -23,7 +24,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     private _sub = new SubSink();
 
-    categoryList$!: Observable<Category[]>;
+    public categoryList$!: Observable<Category[]>;
+    public loadingError$ = new Subject<boolean>();
 
     constructor(
         private sidebarService: SidenavService,
@@ -39,7 +41,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
         });
 
         // Load categories
-        this.categoryList$ = this._categoryService.getCategoryList();
+        this.categoryList$ = this.sidebarService.reloadCategoryObs.pipe(
+            switchMap((data) => {
+                return this._categoryService.getCategoryList().pipe(
+                    catchError((error) => {
+                        console.error(error);
+                        this.loadingError$.next(true);
+                        return of([]);
+                    })
+                );
+            })
+        );
     }
 
     ngOnDestroy(): void {

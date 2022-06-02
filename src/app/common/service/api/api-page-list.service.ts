@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, delay, map, switchMap, tap } from 'rxjs/operators';
+import { LoadingSpinnerComponent } from 'src/app/shared-components/loading-spinner/loading-spinner.component';
 import { ErrorMessage } from '../../constants/error-message';
 import { Item } from '../../schema/item';
+import { ApiCategoryAbstractService } from './api-category-abstract.service';
 import { ApiHttpService } from './api-http.service';
 import { QueryStringParamsService } from './query-string-params.service';
 
@@ -12,7 +14,8 @@ import { QueryStringParamsService } from './query-string-params.service';
 export class ApiPageListService {
     constructor(
         private _apiHttpService: ApiHttpService,
-        private _queryStringParamsService: QueryStringParamsService
+        private _queryStringParamsService: QueryStringParamsService,
+        private _categoryService: ApiCategoryAbstractService
     ) {}
 
     // Get category id base on category name
@@ -55,5 +58,34 @@ export class ApiPageListService {
                 }
             })
         );
+    };
+
+    public getContentByCategoryId = (category_id: string): Observable<Item[]> => {
+        return this._apiHttpService.get(`item?categoryId=${category_id}`);
+    };
+
+    public calculateCompletePercentageOfACategory = (categoryId: string): void => {
+        this.getContentByCategoryId(categoryId).subscribe((data) => {
+            const total = data.length;
+            let complete = 0;
+
+            data.forEach((item) => {
+                if (item.isDone) {
+                    complete++;
+                }
+            });
+
+            const completePercentage = Math.round((complete / total) * 100);
+
+            this._categoryService.patchCategory({ id: categoryId, completePercentage }).subscribe();
+        });
+    };
+
+    public calculateCompletePercentageOfAllCategories = (): void => {
+        this._categoryService.getCategoryList().subscribe((data) => {
+            data.forEach((category) => {
+                this.calculateCompletePercentageOfACategory(category.id);
+            });
+        });
     };
 }

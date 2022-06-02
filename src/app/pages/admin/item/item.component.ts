@@ -163,7 +163,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     // ---------- DELETE ---------- //
-    deleteItem(id: string): void {
+    deleteItem(item: Item): void {
         let confirmDialogRef = this._dialog.open(ConfirmDialogComponent, {
             data: {
                 title: 'Delete Item',
@@ -176,12 +176,16 @@ export class ItemComponent implements OnInit, OnDestroy {
             .afterClosed()
             .pipe(
                 switchMap((result) => {
-                    return result === 'Confirmed' ? this._itemService.deleteItemByID(id) : of(null);
+                    return result === 'Confirmed'
+                        ? this._itemService.deleteItemByID(item.id, item.categoryId)
+                        : of(null);
                 })
             )
             .subscribe((data) => {
-                this._itemSubject$.next(true);
-                this._snackbar.open('Item deleted', 'Dismiss', { duration: 2000 });
+                if (data) {
+                    this._itemSubject$.next(true);
+                    this._snackbar.open('Item deleted', 'Dismiss', { duration: 2000 });
+                }
             });
     }
 
@@ -193,7 +197,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         return timer(300).pipe(
             switchMap(() =>
                 this._itemService.retrieveItemBySlug(control.value).pipe(
-                    map((item: [Item]) => {
+                    map((item: [Item] | []) => {
                         return item[0] ? { slugExists: true } : null;
                     })
                 )

@@ -10,3 +10,7 @@
     padding-left: 32px;
     padding-right: 32px;
 }
+
+:host::ng-deep mat-sidenav {
+    width: 300px;
+}
