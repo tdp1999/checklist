@@ -2,6 +2,6 @@ export interface Category {
     id: string;
     name: string;
     slug: string;
-    completePercentage: number;
+    completePercentage: number | null;
     description: string;
 }

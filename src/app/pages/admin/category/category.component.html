@@ -17,3 +17,11 @@
         (onActionTriggered)="onActionTriggered($event)"
     ></app-datatable>
 </div>
+
+<!-- Loading template -->
+<ng-template #loadingOrError>
+    <!-- <div *ngIf="loadingError$ | async; else loading">error</div> -->
+    <ng-template #loading>
+        <app-loading-spinner></app-loading-spinner>
+    </ng-template>
+</ng-template>

@@ -1,8 +1,26 @@
-<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="data" class="demo-table">
+<div class="relative mat-elevation-z8 flex flex-col justify-between min-h-[100px] mt-5">
+    <table
+        *ngIf="dataSource && dataSource.length > 0; else loadingOrError"
+        mat-table
+        [dataSource]="data"
+        class="w-full"
+    >
         <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
             <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
-            <td mat-cell *matCellDef="let row">{{ column.cell(row) }}</td>
+
+            <!-- Line Clamp -->
+            <ng-container *ngIf="['content'].indexOf(column.columnDef) >= 0; else normalColumn">
+                <td mat-cell *matCellDef="let row" class="max-w-xs">
+                    <div class="pr-3 line-clamp-1">
+                        {{ column.cell(row) }}
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- Normal Column -->
+            <ng-template #normalColumn>
+                <td mat-cell *matCellDef="let row">{{ column.cell(row) }}</td>
+            </ng-template>
         </ng-container>
 
         <ng-container *ngIf="actions.length > 0" matColumnDef="action">
@@ -49,6 +67,15 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+
+    <ng-template #loadingOrError>
+        <div *ngIf="dataSource && dataSource.length === 0; else loading" class="pt-5 text-center">
+            No data
+        </div>
+        <ng-template #loading>
+            <app-loading-spinner></app-loading-spinner>
+        </ng-template>
+    </ng-template>
 
     <mat-paginator
         [pageSizeOptions]="[5, 10, 20]"

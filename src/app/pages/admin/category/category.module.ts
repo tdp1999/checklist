@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CategoryRoutingModule } from './category-routing.module';
 import { CategoryComponent } from './category.component';
 import { DatatableModule } from 'src/app/shared-components/datatable/datatable.module';
+import { LoadingSpinnerModule } from 'src/app/shared-components/loading-spinner/loading-spinner.module';
 
 // Dialogs
 import { CustomDialogModule } from 'src/app/shared-components/dialogs/custom-dialog/custom-dialog.module';
@@ -21,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatButtonModule,
         CustomDialogModule,
         ConfirmDialogModule,
+        LoadingSpinnerModule,
     ],
 })
 export class CategoryModule {}

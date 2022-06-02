@@ -1,6 +1,5 @@
-<div *ngIf="items$ | async as items" class="container mx-auto my-2">
+<div class="container mx-auto my-2">
     <button
-        class="mb-2"
         title="Add item"
         type="button"
         mat-raised-button
@@ -12,7 +11,7 @@
 
     <app-datatable
         [columns]="columns"
-        [dataSource]="items"
+        [dataSource]="items$ | async"
         [displayedColumns]="displayedColumn"
         [actions]="[actionType.EDIT, actionType.DELETE]"
         (onActionTriggered)="onActionTriggered($event)"

@@ -1,15 +1,23 @@
 <ng-container *ngIf="checkList$ | async as checkList; else loadingOrError">
     <ng-container *ngIf="checkList.length > 0; else loadingOrError">
-        <ng-container *ngFor="let item of checkList; let i = index">
-            <div class="checklist-item" [class.checked]="item.isDone">
+        <div class="divide-y">
+            <div
+                *ngFor="let item of checkList; let i = index"
+                class="py-3 space-x-2 text-sky-500"
+                [class.checked]="item.isDone"
+            >
                 <mat-checkbox
                     [(ngModel)]="itemCheckboxList[i].isDone"
                     (ngModelChange)="onCheckboxChanges(itemCheckboxList[i])"
                 >
-                    <a [routerLink]="['./', item.slug]">{{ item.name }}</a>
                 </mat-checkbox>
+                <a
+                    [ngClass]="{ done: itemCheckboxList[i].isDone }"
+                    [routerLink]="['./', item.slug]"
+                    >{{ item.name }}</a
+                >
             </div>
-        </ng-container>
+        </div>
     </ng-container>
 </ng-container>
 <!-- Loading template -->

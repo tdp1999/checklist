@@ -9,9 +9,17 @@ import { ItemDialogModule } from './item-dialog/item-dialog.module';
 
 // Import Material Modules
 import { MatButtonModule } from '@angular/material/button';
+import { LoadingSpinnerModule } from 'src/app/shared-components/loading-spinner/loading-spinner.module';
 
 @NgModule({
     declarations: [ItemComponent],
-    imports: [CommonModule, ItemRoutingModule, DatatableModule, MatButtonModule, ItemDialogModule],
+    imports: [
+        CommonModule,
+        ItemRoutingModule,
+        DatatableModule,
+        MatButtonModule,
+        ItemDialogModule,
+        LoadingSpinnerModule,
+    ],
 })
 export class ItemModule {}

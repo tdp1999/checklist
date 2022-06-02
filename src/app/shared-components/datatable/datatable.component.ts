@@ -25,7 +25,7 @@ import { Column } from 'src/app/common/schema/datatable/Column';
 })
 export class DatatableComponent implements OnChanges, OnInit, AfterViewInit {
     @Input() columns!: Column[];
-    @Input() dataSource!: any[];
+    @Input() dataSource: any[] | undefined | null = [];
     @Input() displayedColumns!: string[];
     @Input() actions: ActionType[] = [];
 
@@ -42,7 +42,7 @@ export class DatatableComponent implements OnChanges, OnInit, AfterViewInit {
 
     ngOnChanges(changes: any): void {
         // DataSource is immutable, so we need to create a new instance to update the table
-        this.data = new MatTableDataSource<any>(this.dataSource);
+        this.data = new MatTableDataSource<any>(this.dataSource ?? []);
         this.data.paginator = this.paginator;
     }
 

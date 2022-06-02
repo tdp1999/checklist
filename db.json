@@ -4,7 +4,7 @@
       "id": 1,
       "name": "architecture",
       "slug": "architecture",
-      "completePercentage": 33,
+      "completePercentage": 0,
       "description": ""
     },
     {
@@ -18,115 +18,115 @@
       "id": 3,
       "name": "general",
       "slug": "general",
-      "completePercentage": 50,
+      "completePercentage": null,
       "description": ""
     },
     {
       "id": 4,
       "name": "https",
       "slug": "https",
-      "completePercentage": 0,
+      "completePercentage": null,
       "description": ""
     },
     {
       "id": 5,
       "name": "rxjs",
       "slug": "rxjs",
-      "completePercentage": 0,
+      "completePercentage": null,
       "description": ""
     },
     {
       "id": 6,
       "name": "performance",
       "slug": "performance",
-      "completePercentage": 0,
+      "completePercentage": null,
       "description": ""
     },
     {
       "id": 7,
       "name": "router",
       "slug": "router",
-      "completePercentage": 0,
+      "completePercentage": null,
       "description": ""
     },
     {
       "id": 8,
       "name": "tooling",
       "slug": "tooling",
-      "completePercentage": 0,
+      "completePercentage": null,
       "description": ""
     },
     {
       "id": 9,
       "name": "typescript",
       "slug": "typescript",
-      "completePercentage": 0,
+      "completePercentage": null,
       "description": ""
     },
     {
       "id": 10,
       "name": "template",
       "slug": "template",
-      "completePercentage": 0,
+      "completePercentage": null,
       "description": ""
     }
   ],
   "item": [
     {
-      "id": "asdkjahsdk",
-      "name": "release resources in ngOnDestroy",
-      "categoryId": "2",
-      "content": "anbs",
-      "isDone": false,
-      "slug": "release-resources-in-ngondestroy"
-    },
-    {
-      "id": "asdkjsahsdks",
-      "name": "use latest version of everything",
-      "categoryId": "3",
-      "content": "anb334",
-      "isDone": true,
-      "slug": "use-latest-version-of-everything"
-    },
-    {
-      "id": "0AYPiGn",
-      "name": "new item",
-      "slug": "abmasdasd",
-      "categoryId": 6,
-      "isDone": true,
-      "content": "asdas"
-    },
-    {
-      "id": "3Em8fIa",
-      "name": "thhundersss",
-      "slug": "abm",
-      "categoryId": 3,
-      "content": "asdaskdja",
-      "isDone": false
-    },
-    {
-      "name": "template",
-      "slug": "template",
+      "name": "never mutate objects and embrace immutability",
+      "slug": "never-mutate-objects-and-embrace-immutability",
       "categoryId": 1,
-      "content": "Loave",
+      "content": "Performing a deep comparison of objects in JavaScript is a quite costly operation. Reference checks however, are extremely fast and easy. For that reason, Angular and lots of other libraries depend on reference check comparisons instead of deeply comparing objects. If you mutate objects, you most likely experience weird and unexpected behavior when using any of these libs.",
       "isDone": false,
-      "id": "A7MexOG"
+      "id": 1
     },
     {
-      "name": "love2",
-      "slug": "love2",
+      "name": "provide shared services only on root level",
       "categoryId": 1,
-      "content": "Loave2",
-      "isDone": true,
-      "id": "07hWotB"
+      "content": "Due to the way DI (Dependency Injection) in Angular is implemented, with an injector tree, we can provide instances of our service on multiple levels, e.g. component, directive or module. While this is a useful feature, this is not always what we want.\n\n",
+      "isDone": false,
+      "id": 2,
+      "slug": "provide-shared-services-only-on-root-level"
     },
     {
-      "name": "love3",
-      "slug": "love3",
+      "name": "put business logic into services",
+      "slug": "put-business-logic-into-services",
       "categoryId": 1,
-      "content": "loave2",
+      "content": "With Angular we are creating applications using a layered architecture. Every layer in our application should have its own responsibility. This means we have decoupled layers and each with its own concern. Business logic in our application does not belong in the component layer. The component layer is purely meant to be used for visualization, displaying user interface and handling user input. Therefore, business logic should be extracted into the service layer.\n\n",
       "isDone": false,
-      "id": "wZ2sGWx"
+      "id": 3
+    },
+    {
+      "name": "use descriptive file names",
+      "slug": "use-descriptive-file-names",
+      "categoryId": 1,
+      "content": "When applications grow over time, it can be quite hard to identify and find certain parts in our application. When we don’t give a descriptive name to our files, this makes it even more difficult to do so.",
+      "isDone": false,
+      "id": 4
+    },
+    {
+      "name": "use modules to define features",
+      "slug": "use-modules-to-define-features",
+      "categoryId": 1,
+      "content": "As an app scales, the root module starts growing and declaring a vast number of components increases the start time as well as affects the application’s performance. Additionally, the more components we add to the root module, the harder it gets to understand the application’s structure, and therefore making it hard to maintain.",
+      "isDone": false,
+      "id": 5
+    },
+    {
+      "name": "use smart and dumb components",
+      "slug": "use-smart-and-dumb-components",
+      "categoryId": 1,
+      "content": "Every major frontend framework is moving towards a component-based architecture. Components are a combination of HTML, JavaScript and CSS. If we start injecting services in every component, tightly couple them by letting them fetch their own data, we are not leveraging the power of a component-based architecture.",
+      "isDone": false,
+      "id": 6
+    },
+    {
+      "name": " release resources in ngOnDestroy",
+      "slug": "release-resources-in-ngondestroy",
+      "categoryId": 2,
+      "content": "When creating Angular components, we need to use resources to get user input, fetch data from the backend, create animations, etc. The way we do this varies. We could use Observables, browser APIs, event listeners or other means. When using resources, we also need to release those resources when they are no longer required. If we do not do this, we might introduce memory leaks which will make our application crash and introduce other unwanted behavior.",
+      "isDone": false,
+      "id": 7
     }
   ],
   "content": [

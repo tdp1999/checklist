@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, Observable, of, timer } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject, timer } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Category } from 'src/app/common/schema/category';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
@@ -22,8 +22,9 @@ import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 })
 export class ItemComponent implements OnInit, OnDestroy {
     // Obsevable data varibles
-    public items$!: Observable<Item[]>;
+    public items$: Observable<Item[] | undefined>;
     public actionType = ActionType;
+    public loadingError$ = new Subject<boolean>();
 
     // Config variables
     public displayedColumn = ['id', 'name', 'category', 'content', 'slug'];
@@ -67,14 +68,26 @@ export class ItemComponent implements OnInit, OnDestroy {
         private _itemService: ApiItemAbstractService,
         private _dialog: MatDialog,
         private _snackbar: MatSnackBar
-    ) {}
+    ) {
+        // Use BehaviorSubject to notify the table to update
+        this.items$ = this._itemSubject$.asObservable().pipe(
+            switchMap(() =>
+                this._itemService.getItemList().pipe(
+                    startWith(undefined),
+                    catchError((error) => {
+                        console.error(error);
+                        this.loadingError$.next(true);
+                        this._snackbar.open(error.message, 'Dismiss', {
+                            duration: 2000,
+                        });
+                        return of(undefined);
+                    })
+                )
+            )
+        );
+    }
 
     ngOnInit(): void {
-        // Use BehaviorSubject to notify the table to update
-        this.items$ = this._itemSubject$
-            .asObservable()
-            .pipe(switchMap(() => this._itemService.getItemList()));
-
         // Get category list
         this._sub.sink = this._categoryService
             .getCategoryList()
@@ -156,6 +169,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     onEditItem(submitValue: Item): void {
+        console.log(submitValue);
         this._sub.sink = this._itemService.updateItem(submitValue).subscribe((item) => {
             this._itemSubject$.next(true);
             this._snackbar.open('Item updated', 'Dismiss', { duration: 2000 });

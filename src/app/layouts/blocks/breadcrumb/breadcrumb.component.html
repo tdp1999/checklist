@@ -1,8 +1,8 @@
 <nav aria-label="breadcrumb" *ngIf="breadcrumbs$ | async as breadcrumbs">
-    <ol class="flex pb-2 border-b-2 border-sky-400 border-solid">
+    <ol class="flex pb-2 mb-5 border-b-2 border-solid border-sky-400">
         <li
             *ngFor="let breadcrumb of breadcrumbs; let last = last"
-            class="flex items-center text-xl leading-8"
+            class="flex items-center text-xl leading-8 text-gray-500"
             [ngClass]="{ active: last }"
         >
             <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>

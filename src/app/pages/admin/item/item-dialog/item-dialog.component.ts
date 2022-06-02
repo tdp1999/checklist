@@ -9,6 +9,7 @@ import {
 import {
     AbstractControl,
     FormBuilder,
+    FormControl,
     FormGroup,
     ValidationErrors,
     Validators,
@@ -98,11 +99,15 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
 
         if (editValue) {
             this.form.addControl('id', this._fb.control(editValue.id));
+
+            let slugControl = this.form.get('slug') as FormControl;
+            slugControl?.disable();
+            slugControl?.removeAsyncValidators;
         }
     }
 
     submitForm() {
-        this.data.callback?.bind(this.data.thisRef)(this.form.value);
+        this.data.callback?.bind(this.data.thisRef)(this.form.getRawValue());
         this._cdr.markForCheck();
     }
 }

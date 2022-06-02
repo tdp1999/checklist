@@ -8,6 +8,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
     declarations: [DatatableComponent],
@@ -18,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatIconModule,
         MatButtonModule,
         MatTooltipModule,
+        LoadingSpinnerModule,
     ],
     exports: [DatatableComponent],
 })
