@@ -103,7 +103,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     onCategoryNotFound(): void {
-        this._categoryService.getCategoryList().subscribe((category) => {
+        this._categoryService.getCategoryListNoPagination().subscribe((category) => {
             this._router.navigate(['/checklist/', category[0].slug]);
         });
     }

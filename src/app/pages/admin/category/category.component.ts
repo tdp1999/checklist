@@ -12,6 +12,8 @@ import { CustomDialogComponent } from 'src/app/shared-components/dialogs/custom-
 import { ConfirmDialogComponent } from 'src/app/shared-components/dialogs/confirm-dialog/confirm-dialog.component';
 import { SubSink } from 'subsink';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GetListFilter } from 'src/app/common/schema/datatable/Filter';
+import { PageEvent } from '@angular/material/paginator';
 
 export interface PeriodicElement {
     id: number;
@@ -56,6 +58,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
     ];
     public categorySubject$ = new BehaviorSubject<boolean>(true);
 
+    public filter: GetListFilter = {
+        _page: 1,
+    };
+    public totalItems: number = 0;
+
     constructor(
         private _categoryService: ApiCategoryAbstractService,
         private _dialog: MatDialog,
@@ -65,9 +72,16 @@ export class CategoryComponent implements OnInit, OnDestroy {
     // ---------- CYCLE HOOKS ---------- //
     ngOnInit(): void {
         // Use BehaviorSubject to notify the table to update
-        this.categories$ = this.categorySubject$
-            .asObservable()
-            .pipe(switchMap(() => this._categoryService.getCategoryList()));
+        this.categories$ = this.categorySubject$.asObservable().pipe(
+            switchMap(() => {
+                return this._categoryService.getCategoryList(this.filter).pipe(
+                    map((data: any) => {
+                        this.totalItems = data.paginations._totalRows;
+                        return data.data;
+                    })
+                );
+            })
+        );
     }
 
     ngOnDestroy(): void {
@@ -91,6 +105,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
                 this.deleteCategory(payload);
                 break;
         }
+    }
+
+    onPaginationChange(event: PageEvent): void {
+        this.filter._page = event.pageIndex + 1;
+        this.filter._limit = event.pageSize;
+        this.categorySubject$.next(true);
     }
 
     // ---------- CREATE ---------- //

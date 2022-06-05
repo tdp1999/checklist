@@ -82,7 +82,7 @@ export class ApiPageListService {
     };
 
     public calculateCompletePercentageOfAllCategories = (): void => {
-        this._categoryService.getCategoryList().subscribe((data) => {
+        this._categoryService.getCategoryListNoPagination().subscribe((data) => {
             data.forEach((category) => {
                 this.calculateCompletePercentageOfACategory(category.id);
             });

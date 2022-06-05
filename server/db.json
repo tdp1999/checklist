@@ -69,6 +69,13 @@
       "slug": "template",
       "completePercentage": null,
       "description": ""
+    },
+    {
+      "name": "new cate",
+      "slug": "new-cate",
+      "completePercentage": 0,
+      "description": "",
+      "id": 11
     }
   ],
   "item": [
@@ -127,6 +134,38 @@
       "content": "When creating Angular components, we need to use resources to get user input, fetch data from the backend, create animations, etc. The way we do this varies. We could use Observables, browser APIs, event listeners or other means. When using resources, we also need to release those resources when they are no longer required. If we do not do this, we might introduce memory leaks which will make our application crash and introduce other unwanted behavior.",
       "isDone": false,
       "id": 7
+    },
+    {
+      "name": "don't use property bindings to pass static strings to native attributes",
+      "slug": "dont-use-property-bindings-to-pass-static-strings-to-native-attributes",
+      "categoryId": 2,
+      "content": "Property bindings in Angular allows us to bind to properties. During change detection, when a component is checked, all of the bindings for that component are being checked to see if the view needs to be updated. This means that the more bindings we create, the slower the CD cycle will be, as more bindings need to be checked.\n\nIf we have static strings that we want to pass to a native attribute (such as id and title) of an HTML element, it’s not necessary to use a property binding as the value will never change. This seems to be a trivial thing to talk about, but it can have a great impact the performance of our application.",
+      "isDone": false,
+      "id": 8
+    },
+    {
+      "name": "minimize logic in templates",
+      "slug": "minimize-logic-in-templates",
+      "categoryId": 2,
+      "content": "When we put too much logic in our templates, we are making our applications more difficult to test. The fastest way to write and execute tests is to use simple unit tests. Of course we could also test a component’s template with a unit test but that increases the complexity and introduces some challenges we have to deal with.\n\nIn addition, too much logic inside the template makes them less readable. We cannot take a quick glance at the template and quickly understand what’s going on.",
+      "isDone": false,
+      "id": 9
+    },
+    {
+      "name": "put init logic in the ngOnInit lifecycle hook",
+      "slug": "put-init-logic-in-the-ngoninit-lifecycle-hook",
+      "categoryId": 2,
+      "content": "The constructor is a function of a class that is being called during the construction of an instance of that component. Angular leverages the constructor to provide us with the dependencies we requested. It doesn’t mean however, that Angular is fully finished with the creation of this component. The @Input bindings for example will not be initialised yet. Angular will call the ngOnInit lifecycle hook when it’s ready.\n\nIf we put logic inside the constructor, especially data-fetching logic, we are doing things before Angular has finished creating the component. It also has an impact on how we test our code. In a unit test, we will probably instantiate an instance of a component in a beforeEach block. If this already initialises some logic or fetches data, it will impact every other test and make it harder to test this particular logic.",
+      "isDone": false,
+      "id": 10
+    },
+    {
+      "name": "only manipulate the DOM via the Renderer",
+      "slug": "only-manipulate-the-dom-via-the-renderer",
+      "categoryId": 2,
+      "content": "According to the Angular documentation, relying on direct DOM access creates tight coupling between your application and rendering layers which will make it impossible to separate the two and deploy your application into a web worker.\n\nConsequently, using jQuery , document object, or ElementRef.nativeElement is not recommended as it’s not available on other platforms such as server (for server-side rendering) or web worker.\n\nIn addition, permitting direct access to the DOM can make your application more vulnerable to XSS attacks.",
+      "isDone": false,
+      "id": 11
     }
   ],
   "content": [

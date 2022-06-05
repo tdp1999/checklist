@@ -11,9 +11,11 @@
 
     <app-datatable
         [columns]="columns"
+        [totalItems]="totalItems"
         [dataSource]="items$ | async"
         [displayedColumns]="displayedColumn"
         [actions]="[actionType.EDIT, actionType.DELETE]"
         (onActionTriggered)="onActionTriggered($event)"
+        (onPaginationChange)="onPaginationChange($event)"
     ></app-datatable>
 </div>

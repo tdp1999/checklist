@@ -1,6 +1,9 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { GetListFilter } from '../../schema/datatable/Filter';
+import { PaginationInterface } from '../../schema/general-schema';
 import { Item } from '../../schema/item';
 import { ApiCategoryAbstractService } from './api-category-abstract.service';
 import { ApiHttpService } from './api-http.service';
@@ -12,8 +15,9 @@ import { ApiPageListService } from './api-page-list.service';
 export class ApiItemAbstractService {
     constructor(private _api: ApiHttpService, private _listPageService: ApiPageListService) {}
 
-    getItemList(): Observable<Item[]> {
-        return this._api.get('item');
+    getItemList(filter: GetListFilter): Observable<PaginationInterface<Item[]>> {
+        let queryParam = new HttpParams({ fromObject: filter as {} });
+        return this._api.get('item', { params: queryParam });
     }
 
     retrieveItem(id: string): Observable<Item> {

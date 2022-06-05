@@ -43,7 +43,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // Load categories
         this.categoryList$ = this.sidebarService.reloadCategoryObs.pipe(
             switchMap((data) => {
-                return this._categoryService.getCategoryList().pipe(
+                return this._categoryService.getCategoryListNoPagination().pipe(
                     catchError((error) => {
                         console.error(error);
                         this.loadingError$.next(true);

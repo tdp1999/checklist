@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable, of, Subject, timer } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Category } from 'src/app/common/schema/category';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
+import { GetListFilter } from 'src/app/common/schema/datatable/Filter';
 import { Item } from 'src/app/common/schema/item';
 import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
 import { ApiItemAbstractService } from 'src/app/common/service/api/api-item-abstract.service';
@@ -62,6 +64,10 @@ export class ItemComponent implements OnInit, OnDestroy {
 
     // Other variables
     public categoryList: Category[] = [];
+    public filter: GetListFilter = {
+        _page: 1,
+    };
+    public totalItems: number = 0;
 
     constructor(
         private _categoryService: ApiCategoryAbstractService,
@@ -72,7 +78,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         // Use BehaviorSubject to notify the table to update
         this.items$ = this._itemSubject$.asObservable().pipe(
             switchMap(() =>
-                this._itemService.getItemList().pipe(
+                this._itemService.getItemList(this.filter).pipe(
                     startWith(undefined),
                     catchError((error) => {
                         console.error(error);
@@ -81,6 +87,16 @@ export class ItemComponent implements OnInit, OnDestroy {
                             duration: 2000,
                         });
                         return of(undefined);
+                    }),
+                    map((data) => {
+                        if (data) {
+                            // this.filter._page = data.paginations._page;
+                            // this.filter._limit = data.paginations._limit;
+                            this.totalItems = data.paginations._totalRows;
+                            return data.data;
+                        }
+
+                        return undefined;
                     })
                 )
             )
@@ -90,7 +106,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         // Get category list
         this._sub.sink = this._categoryService
-            .getCategoryList()
+            .getCategoryListNoPagination()
             .subscribe((categoryList: Category[]) => {
                 this.categoryList = categoryList;
             });
@@ -121,6 +137,12 @@ export class ItemComponent implements OnInit, OnDestroy {
                 this.deleteItem(payload);
                 break;
         }
+    }
+
+    onPaginationChange(event: PageEvent) {
+        this.filter._page = event.pageIndex + 1;
+        this.filter._limit = event.pageSize;
+        this._itemSubject$.next(true);
     }
 
     // ---------- VIEW ---------- //

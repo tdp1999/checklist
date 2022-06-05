@@ -1,7 +1,10 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Category } from '../../schema/category';
+import { GetListFilter } from '../../schema/datatable/Filter';
+import { PaginationInterface } from '../../schema/general-schema';
 import { SidenavService } from '../sidenav.service';
 import { ApiHttpService } from './api-http.service';
 
@@ -11,8 +14,13 @@ import { ApiHttpService } from './api-http.service';
 export class ApiCategoryAbstractService {
     constructor(private _api: ApiHttpService, private _sidebarService: SidenavService) {}
 
-    getCategoryList(): Observable<Category[]> {
+    getCategoryListNoPagination(): Observable<Category[]> {
         return this._api.get('category');
+    }
+
+    getCategoryList(filter: GetListFilter): Observable<PaginationInterface<Category[]>> {
+        let queryParam = new HttpParams({ fromObject: filter as {} });
+        return this._api.get('category', { params: queryParam });
     }
 
     retrieveCategoryByID(id: string): Observable<Category> {
