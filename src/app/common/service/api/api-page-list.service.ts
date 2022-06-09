@@ -77,14 +77,16 @@ export class ApiPageListService {
 
             const completePercentage = Math.round((complete / total) * 100);
 
-            this._categoryService.patchCategory({ id: categoryId, completePercentage }).subscribe();
+            this._categoryService
+                .patchCategory({ _id: categoryId, completePercentage })
+                .subscribe();
         });
     };
 
     public calculateCompletePercentageOfAllCategories = (): void => {
         this._categoryService.getCategoryListNoPagination().subscribe((data) => {
             data.forEach((category) => {
-                this.calculateCompletePercentageOfACategory(category.id);
+                this.calculateCompletePercentageOfACategory(category._id);
             });
         });
     };

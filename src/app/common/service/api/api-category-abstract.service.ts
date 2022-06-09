@@ -36,11 +36,11 @@ export class ApiCategoryAbstractService {
     }
 
     updateCategory(category: Category): Observable<Category> {
-        return this._api.put(`category/${category.id}`, category);
+        return this._api.put(`category/${category._id}`, category);
     }
 
     patchCategory(category: Partial<Category>): Observable<Category> {
-        return this._api.patch(`category/${category.id}`, category).pipe(
+        return this._api.patch(`category/${category._id}`, category).pipe(
             tap(() => {
                 this._sidebarService.remindToReloadCategory();
             })
@@ -48,6 +48,7 @@ export class ApiCategoryAbstractService {
     }
 
     deleteCategoryByID(id: string): Observable<any> {
+        console.log(id);
         return this._api.delete(`category/${id}`);
     }
 }

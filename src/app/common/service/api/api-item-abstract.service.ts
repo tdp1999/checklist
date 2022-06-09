@@ -37,7 +37,7 @@ export class ApiItemAbstractService {
     }
 
     updateItem(item: Required<Item>): Observable<Item> {
-        return this._api.put(`item/${item.id}`, item).pipe(
+        return this._api.put(`item/${item._id}`, item).pipe(
             finalize(() => {
                 if ('isDone' in item) {
                     this._listPageService.calculateCompletePercentageOfACategory(item.categoryId);
@@ -47,7 +47,7 @@ export class ApiItemAbstractService {
     }
 
     patchItem(item: Partial<Item>, categoryId: string): Observable<Item> {
-        return this._api.patch(`item/${item.id}`, item).pipe(
+        return this._api.patch(`item/${item._id}`, item).pipe(
             finalize(() => {
                 if ('isDone' in item) {
                     this._listPageService.calculateCompletePercentageOfACategory(categoryId);

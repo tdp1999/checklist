@@ -78,7 +78,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 if (!itemList) console.log('No item list');
                 this.itemCheckboxList = itemList.map((item) => {
                     return {
-                        id: item.id,
+                        id: item._id,
                         isDone: item.isDone,
                         categoryId: item.categoryId,
                     };

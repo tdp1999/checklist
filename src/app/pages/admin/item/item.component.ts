@@ -34,7 +34,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         {
             columnDef: 'id',
             header: 'ID',
-            cell: (element: Item) => `${element.id}`,
+            cell: (element: Item) => `${element._id}`,
         },
         {
             columnDef: 'name',
@@ -213,7 +213,7 @@ export class ItemComponent implements OnInit, OnDestroy {
             .pipe(
                 switchMap((result) => {
                     return result === 'Confirmed'
-                        ? this._itemService.deleteItemByID(item.id, item.categoryId)
+                        ? this._itemService.deleteItemByID(item._id, item.categoryId)
                         : of(null);
                 })
             )

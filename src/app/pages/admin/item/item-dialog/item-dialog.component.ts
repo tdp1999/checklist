@@ -98,7 +98,7 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
         });
 
         if (editValue) {
-            this.form.addControl('id', this._fb.control(editValue.id));
+            this.form.addControl('id', this._fb.control(editValue._id));
 
             let slugControl = this.form.get('slug') as FormControl;
             slugControl?.disable();

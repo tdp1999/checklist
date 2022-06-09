@@ -159,7 +159,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
 
     // ---------- DELETE ---------- //
-    deleteCategory(id: string): void {
+    deleteCategory(category: Category): void {
+        console.log(category);
+
         let confirmDialogRef = this._dialog.open(ConfirmDialogComponent, {
             data: {
                 title: 'Delete Category',
@@ -173,7 +175,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
             .pipe(
                 switchMap((result) => {
                     return result === 'Confirmed'
-                        ? this._categoryService.deleteCategoryByID(id)
+                        ? this._categoryService.deleteCategoryByID(category._id)
                         : of(null);
                 })
             )
