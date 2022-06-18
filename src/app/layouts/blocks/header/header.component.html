@@ -11,13 +11,4 @@
 
     <a routerLink="/"><h1>My Checklist</h1></a>
     <span class="example-spacer"></span>
-
-    <!-- Project select -->
-    <mat-form-field>
-        <mat-select>
-            <mat-option *ngFor="let food of foods" [value]="food.value">
-                {{ food.viewValue }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
 </mat-toolbar>
