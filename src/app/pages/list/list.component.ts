@@ -43,7 +43,7 @@ export class ListComponent implements OnInit, OnDestroy {
         private _itemService: ApiItemAbstractService,
         private _router: Router,
         private _snackbar: MatSnackBar,
-        private _cdr: ChangeDetectorRef
+        private _sidenavService: SidenavService
     ) {}
 
     ngOnInit(): void {
@@ -67,9 +67,6 @@ export class ListComponent implements OnInit, OnDestroy {
                         this.onCategoryNotFound();
                         return of([]);
                     })
-                    // finalize(() => {
-                    //     console.log('finalize');
-                    // })
                 );
             }),
             tap((itemList: Item[]) => {
@@ -81,9 +78,6 @@ export class ListComponent implements OnInit, OnDestroy {
                         categoryID: item.categoryID,
                     };
                 });
-            }),
-            finalize(() => {
-                console.log('Stream terminated');
             })
         );
     }
@@ -94,6 +88,8 @@ export class ListComponent implements OnInit, OnDestroy {
 
     onCheckboxChanges(item: checkboxItem): void {
         this._itemService.patchItem(item, item.categoryID).subscribe(() => {
+            this._sidenavService.remindToReloadCategory();
+
             this._snackbar.open('Item updated', 'Dismiss', {
                 duration: 2000,
             });

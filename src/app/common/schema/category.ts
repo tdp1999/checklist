@@ -6,3 +6,9 @@ export interface Category {
     description: string;
     _createdAt: string;
 }
+
+export interface CategoryPostInterface {
+    name: string;
+    slug: string;
+    description: string;
+}

@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://localhost:3000',
+    apiUrl: 'https://tdp99-checklist.herokuapp.com/api',
 };

@@ -3,7 +3,7 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Observable, of, timer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Category } from 'src/app/common/schema/category';
+import { Category, CategoryPostInterface } from 'src/app/common/schema/category';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
 import { ApiCategoryAbstractService } from 'src/app/common/service/api/abstract/category.abstract.service';
@@ -133,7 +133,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         });
     }
 
-    onAddCategory(category: Category): void {
+    onAddCategory(category: CategoryPostInterface): void {
         this._sub.sink = this._categoryService.addCategory(category).subscribe((category) => {
             this.categorySubject$.next(true);
             this._snackbar.open('Category added', 'Dismiss', { duration: 2000 });

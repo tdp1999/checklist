@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Category } from '../../../schema/category';
+import { Category, CategoryPostInterface } from '../../../schema/category';
 import { GetListFilter } from '../../../schema/datatable/Filter';
 import { PaginationInterface } from '../../../schema/general-schema';
 import { SidenavService } from '../../sidenav.service';
@@ -31,7 +31,7 @@ export class ApiCategoryAbstractService {
         return this._api.get(`category?slug=${slug}`);
     }
 
-    addCategory(category: Category): Observable<Category> {
+    addCategory(category: CategoryPostInterface): Observable<Category> {
         return this._api.post('category', category);
     }
 
