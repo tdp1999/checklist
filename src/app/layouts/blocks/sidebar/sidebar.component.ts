@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { Category } from 'src/app/common/schema/category';
-import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
+import { ApiCategoryAbstractService } from 'src/app/common/service/api/abstract/category.abstract.service';
 import { SidenavService } from 'src/app/common/service/sidenav.service';
 import { SubSink } from 'subsink';
 

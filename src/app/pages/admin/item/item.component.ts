@@ -10,8 +10,8 @@ import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
 import { GetListFilter } from 'src/app/common/schema/datatable/Filter';
 import { Item } from 'src/app/common/schema/item';
-import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
-import { ApiItemAbstractService } from 'src/app/common/service/api/api-item-abstract.service';
+import { ApiCategoryAbstractService } from 'src/app/common/service/api/abstract/category.abstract.service';
+import { ApiItemAbstractService } from 'src/app/common/service/api/abstract/item.abstract.service';
 import { ConfirmDialogComponent } from 'src/app/shared-components/dialogs/confirm-dialog/confirm-dialog.component';
 import { SubSink } from 'subsink';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
@@ -29,12 +29,17 @@ export class ItemComponent implements OnInit, OnDestroy {
     public loadingError$ = new Subject<boolean>();
 
     // Config variables
-    public displayedColumn = ['id', 'name', 'category', 'content', 'slug'];
+    public displayedColumn = ['#', 'name', 'categoryName', 'content', 'slug'];
     public columns: Column[] = [
+        // {
+        //     columnDef: '_id',
+        //     header: 'ID',
+        //     cell: (element: Item) => `${element._id}`,
+        // },
         {
-            columnDef: 'id',
-            header: 'ID',
-            cell: (element: Item) => `${element._id}`,
+            columnDef: '#',
+            header: 'No.',
+            cell: (element: any) => '0',
         },
         {
             columnDef: 'name',
@@ -42,9 +47,9 @@ export class ItemComponent implements OnInit, OnDestroy {
             cell: (element: Item) => `${element.name}`,
         },
         {
-            columnDef: 'category',
+            columnDef: 'categoryName',
             header: 'Category',
-            cell: (element: Item) => `${element.categoryId}`,
+            cell: (element: Item) => `${element.categoryName}`,
         },
         {
             columnDef: 'content',
@@ -92,7 +97,7 @@ export class ItemComponent implements OnInit, OnDestroy {
                         if (data) {
                             // this.filter._page = data.paginations._page;
                             // this.filter._limit = data.paginations._limit;
-                            this.totalItems = data.paginations._totalRows;
+                            this.totalItems = data.paginations._totalRow;
                             return data.data;
                         }
 
@@ -213,7 +218,7 @@ export class ItemComponent implements OnInit, OnDestroy {
             .pipe(
                 switchMap((result) => {
                     return result === 'Confirmed'
-                        ? this._itemService.deleteItemByID(item._id, item.categoryId)
+                        ? this._itemService.deleteItemByID(item._id, item.categoryID)
                         : of(null);
                 })
             )

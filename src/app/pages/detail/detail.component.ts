@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Item } from 'src/app/common/schema/item';
-import { ApiItemAbstractService } from 'src/app/common/service/api/api-item-abstract.service';
+import { ApiItemAbstractService } from 'src/app/common/service/api/abstract/item.abstract.service';
 
 @Component({
     selector: 'app-detail',
@@ -47,7 +47,7 @@ export class DetailComponent implements OnInit {
 
     onStateChanges(item: Item) {
         item.isDone = this.markAsDone;
-        this._itemService.patchItem(item, item.categoryId).subscribe((data: any) => {
+        this._itemService.patchItem(item, item.categoryID).subscribe((data: any) => {
             this._snackbar.open('Item updated', 'Dismiss', {
                 duration: 2000,
             });

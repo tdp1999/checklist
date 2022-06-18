@@ -40,32 +40,19 @@ export class DatatableComponent implements OnChanges, OnInit, AfterViewInit {
 
     public data: MatTableDataSource<any> = new MatTableDataSource();
     public actionType = ActionType;
+    // public pageSize = 10;
 
     constructor(private _cdr: ChangeDetectorRef, private _zone: NgZone) {}
 
     ngOnChanges(changes: any): void {
-        // DataSource is immutable, so we need to create a new instance to update the table
-        // this.data = new MatTableDataSource<any>(this.dataSource ?? []);
         this.data.data = this.dataSource ?? [];
-        // if (this.paginator) {
-        //     this.paginator.length = this.totalItems;
-        //     // this.data.paginator = this.paginator;
-        // }
-        // console.log('onChange table: ', this.data.paginator);
-        // console.log('onChange input total: ', this.totalItems);
     }
 
     ngOnInit(): void {
         if (this.actions.length > 0) this.displayedColumns = [...this.displayedColumns, 'action'];
     }
 
-    ngAfterViewInit(): void {
-        // Connect the table to the paginator
-        // this.paginator.length = this.totalItems;
-        // this.data.paginator = this.paginator;
-        // console.log('view init table: ', this.data.paginator);
-        // console.log('view init input total: ', this.totalItems);
-    }
+    ngAfterViewInit(): void {}
 
     actionTriggered(type: ActionType, elementId: string): void {
         this.onActionTriggered.emit({

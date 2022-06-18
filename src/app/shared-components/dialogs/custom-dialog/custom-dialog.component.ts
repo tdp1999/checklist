@@ -73,7 +73,7 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
                 this.submitText = 'Save';
 
                 this.form = this._fb.group({
-                    id: [this.data.payload.id],
+                    _id: [this.data.payload._id],
                     name: [this.data.payload.name],
                     slug: [this.data.payload.slug],
                     completePercentage: [this.data.payload.completePercentage],

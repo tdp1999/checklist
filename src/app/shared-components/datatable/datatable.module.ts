@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { OrderNumberModule } from 'src/app/common/pipe/order-number/order-number.module';
 
 @NgModule({
     declarations: [DatatableComponent],
@@ -20,6 +21,7 @@ import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
         MatButtonModule,
         MatTooltipModule,
         LoadingSpinnerModule,
+        OrderNumberModule,
     ],
     exports: [DatatableComponent],
 })

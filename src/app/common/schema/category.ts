@@ -4,4 +4,5 @@ export interface Category {
     slug: string;
     completePercentage: number | null;
     description: string;
+    _createdAt: string;
 }

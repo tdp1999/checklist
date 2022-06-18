@@ -11,16 +11,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, iif, Observable, of, Subject } from 'rxjs';
 import { catchError, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { Item } from 'src/app/common/schema/item';
-import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
-import { ApiPageListService } from 'src/app/common/service/api/api-page-list.service';
+import { ApiCategoryAbstractService } from 'src/app/common/service/api/abstract/category.abstract.service';
+import { ApiPageListService } from 'src/app/common/service/api/page/api-page-list.service';
 import { SidenavService } from 'src/app/common/service/sidenav.service';
 import { SubSink } from 'subsink';
-import { ApiItemAbstractService } from 'src/app/common/service/api/api-item-abstract.service';
+import { ApiItemAbstractService } from 'src/app/common/service/api/abstract/item.abstract.service';
 
 interface checkboxItem {
-    id: string;
+    _id: string;
     isDone: boolean;
-    categoryId: string;
+    categoryID: string;
 }
 
 @Component({
@@ -56,31 +56,29 @@ export class ListComponent implements OnInit, OnDestroy {
                     return of([]);
                 }
 
-                return this._apiPageListService
-                    .getContentByCategorySlug(params.section, 1, 10)
-                    .pipe(
-                        startWith([]),
-                        catchError((error) => {
-                            console.error(error);
-                            this.loadingError$.next(true);
-                            this._snackbar.open(error.message, 'Dismiss', {
-                                duration: 2000,
-                            });
-                            this.onCategoryNotFound();
-                            return of([]);
-                        })
-                        // finalize(() => {
-                        //     console.log('finalize');
-                        // })
-                    );
+                return this._apiPageListService.getCategoryItemByCategorySlug(params.section).pipe(
+                    startWith([]),
+                    catchError((error) => {
+                        console.error(error);
+                        this.loadingError$.next(true);
+                        this._snackbar.open(error.message, 'Dismiss', {
+                            duration: 2000,
+                        });
+                        this.onCategoryNotFound();
+                        return of([]);
+                    })
+                    // finalize(() => {
+                    //     console.log('finalize');
+                    // })
+                );
             }),
             tap((itemList: Item[]) => {
                 if (!itemList) console.log('No item list');
                 this.itemCheckboxList = itemList.map((item) => {
                     return {
-                        id: item._id,
+                        _id: item._id,
                         isDone: item.isDone,
-                        categoryId: item.categoryId,
+                        categoryID: item.categoryID,
                     };
                 });
             }),
@@ -95,7 +93,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     onCheckboxChanges(item: checkboxItem): void {
-        this._itemService.patchItem(item, item.categoryId).subscribe(() => {
+        this._itemService.patchItem(item, item.categoryID).subscribe(() => {
             this._snackbar.open('Item updated', 'Dismiss', {
                 duration: 2000,
             });

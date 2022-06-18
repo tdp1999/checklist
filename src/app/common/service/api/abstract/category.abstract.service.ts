@@ -2,11 +2,11 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Category } from '../../schema/category';
-import { GetListFilter } from '../../schema/datatable/Filter';
-import { PaginationInterface } from '../../schema/general-schema';
-import { SidenavService } from '../sidenav.service';
-import { ApiHttpService } from './api-http.service';
+import { Category } from '../../../schema/category';
+import { GetListFilter } from '../../../schema/datatable/Filter';
+import { PaginationInterface } from '../../../schema/general-schema';
+import { SidenavService } from '../../sidenav.service';
+import { ApiHttpService } from '../api-http.service';
 
 @Injectable({
     providedIn: 'root',

@@ -6,7 +6,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { Category } from 'src/app/common/schema/category';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
-import { ApiCategoryAbstractService } from 'src/app/common/service/api/api-category-abstract.service';
+import { ApiCategoryAbstractService } from 'src/app/common/service/api/abstract/category.abstract.service';
 
 import { CustomDialogComponent } from 'src/app/shared-components/dialogs/custom-dialog/custom-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared-components/dialogs/confirm-dialog/confirm-dialog.component';
@@ -33,12 +33,17 @@ export class CategoryComponent implements OnInit, OnDestroy {
     private _sub = new SubSink();
     public actionType = ActionType;
     public categories$!: Observable<Category[]>;
-    public displayedColumn = ['id', 'name', 'slug', 'completePercentage'];
+    public displayedColumn = ['#', 'name', 'slug', 'completePercentage'];
     public columns: Column[] = [
+        // {
+        //     columnDef: '_id',
+        //     header: 'ID',
+        //     cell: (element: any) => `${element._id}`,
+        // },
         {
-            columnDef: 'id',
-            header: 'ID',
-            cell: (element: any) => `${element.id}`,
+            columnDef: '#',
+            header: 'No.',
+            cell: (element: any) => '0',
         },
         {
             columnDef: 'name',
@@ -76,7 +81,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
             switchMap(() => {
                 return this._categoryService.getCategoryList(this.filter).pipe(
                     map((data: any) => {
-                        this.totalItems = data.paginations._totalRows;
+                        this.totalItems = data.paginations._totalRow;
                         return data.data;
                     })
                 );

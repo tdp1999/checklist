@@ -92,13 +92,13 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
                 [Validators.required],
                 this.data.validateList?.slug.bind(this.data.thisRef),
             ],
-            categoryId: [editValue ? editValue.categoryId : '', [Validators.required]],
+            categoryID: [editValue ? editValue.categoryID : '', [Validators.required]],
             content: [editValue ? editValue.content : '', [Validators.required]],
             isDone: [editValue ? editValue.isDone : false],
         });
 
         if (editValue) {
-            this.form.addControl('id', this._fb.control(editValue._id));
+            this.form.addControl('_id', this._fb.control(editValue._id));
 
             let slugControl = this.form.get('slug') as FormControl;
             slugControl?.disable();
