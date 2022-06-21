@@ -179,7 +179,7 @@ export class ItemComponent implements OnInit, OnDestroy {
 
     // ---------- EDIT ---------- //
     editItem(id: string): void {
-        this._sub.sink = this._itemService.retrieveItem(id).subscribe((item: Item) => {
+        this._sub.sink = this._itemService.retrieveItem(id).subscribe((item: [Item]) => {
             this._dialog.open(ItemDialogComponent, {
                 data: {
                     action: this.actionType.EDIT,
@@ -189,7 +189,7 @@ export class ItemComponent implements OnInit, OnDestroy {
                     },
                     category: this.categoryList,
                     thisRef: this,
-                    payload: item,
+                    payload: item[0],
                 },
             });
         });

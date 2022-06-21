@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AboutDialogComponent } from './about-dialog/about-dialog.component';
 
 @Component({
     selector: 'app-footer',
@@ -6,8 +8,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
     styleUrls: ['./footer.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FooterComponent implements OnInit {
-    constructor() {}
+export class FooterComponent {
+    constructor(public dialog: MatDialog) {}
 
-    ngOnInit(): void {}
+    openDialog() {
+        this.dialog.open(AboutDialogComponent, {
+            width: '60%',
+            height: 'fit-content',
+        });
+    }
 }

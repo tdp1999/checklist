@@ -1,8 +1,11 @@
-// Nav Item
-.nav-item {
-    font-weight: bold;
-    &.active {
-        color: red;
+@import "tailwindcss/components";
+
+@layer components {
+    .nav-item {
+        @apply font-bold;
+        &.active {
+            @apply text-blue-400;
+        }
     }
 }
 

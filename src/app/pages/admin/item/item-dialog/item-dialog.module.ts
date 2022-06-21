@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { SlugifyModule } from 'src/app/common/pipe/slugify/slugify.module';
 
 @NgModule({
     declarations: [ItemDialogComponent],
@@ -22,6 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatInputModule,
         MatSelectModule,
         MatButtonModule,
+        SlugifyModule,
     ],
 })
 export class ItemDialogModule {}

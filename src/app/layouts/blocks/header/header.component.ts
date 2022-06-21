@@ -8,12 +8,6 @@ import { SidenavService } from 'src/app/common/service/sidenav.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
-    foods: any[] = [
-        { value: 'steak-0', viewValue: 'Steak' },
-        { value: 'pizza-1', viewValue: 'Pizza' },
-        { value: 'tacos-2', viewValue: 'Tacos' },
-    ];
-
     constructor(private sidenavService: SidenavService) {}
 
     ngOnInit(): void {}

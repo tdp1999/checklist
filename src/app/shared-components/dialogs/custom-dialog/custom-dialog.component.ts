@@ -15,7 +15,18 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
+import {
+    debounceTime,
+    delay,
+    distinctUntilChanged,
+    filter,
+    map,
+    startWith,
+    switchMap,
+    take,
+    tap,
+} from 'rxjs/operators';
+import { SlugifyPipe } from 'src/app/common/pipe/slugify/slugify.pipe';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { SubSink } from 'subsink';
 
@@ -34,6 +45,7 @@ export interface DialogData {
     templateUrl: './custom-dialog.component.html',
     styleUrls: ['./custom-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [SlugifyPipe],
 })
 export class CustomDialogComponent implements OnInit, OnDestroy {
     public form!: FormGroup;
@@ -46,12 +58,15 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
     constructor(
         private _fb: FormBuilder,
         private _cdr: ChangeDetectorRef,
+        private _slugifyPipe: SlugifyPipe,
         private _dialogRef: MatDialogRef<CustomDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: DialogData
     ) {}
 
     // Life cycle hooks
     ngOnInit(): void {
+        this._dialogRef.updateSize('60%', 'fit-content');
+
         switch (this.data.action) {
             case ActionType.CREATE:
                 // https://stackoverflow.com/questions/2236747/what-is-the-use-of-the-javascript-bind-method
@@ -76,11 +91,13 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
                     _id: [this.data.payload._id],
                     name: [this.data.payload.name],
                     slug: [this.data.payload.slug],
-                    completePercentage: [this.data.payload.completePercentage],
+                    // completePercentage: [this.data.payload.completePercentage],
                     description: [this.data.payload.description],
                 });
                 break;
         }
+
+        this.autocompleteSlug();
     }
 
     ngOnDestroy(): void {
@@ -95,7 +112,26 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
     }
 
     submitForm() {
+        console.log(this.data.action);
+        console.log(this.form.value);
         this.data.callback?.bind(this.data.thisRef)(this.form.value);
         this._cdr.markForCheck();
+    }
+
+    // Autocomplete slug field based on name field
+    autocompleteSlug() {
+        this._subs.add(
+            this.f.name.valueChanges
+                .pipe(
+                    filter((value) => value.length > 0),
+                    startWith(this.f.name.value),
+                    distinctUntilChanged(),
+                    debounceTime(500),
+                    tap((value) => {
+                        this.f.slug.setValue(this._slugifyPipe.transform(value));
+                    })
+                )
+                .subscribe()
+        );
     }
 }

@@ -1,6 +1,7 @@
 <mat-sidenav-container>
     <mat-sidenav mode="side" [(opened)]="opened">
         <mat-nav-list>
+            <div mat-subheader class="uppercase">Categories</div>
             <ng-container *ngIf="categoryList$ | async as categoryList; else loadingOrError">
                 <ng-container *ngFor="let category of categoryList">
                     <a

@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { SidenavService } from 'src/app/common/service/sidenav.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import { SidenavService } from 'src/app/common/service/sidenav.service';
         MatChipsModule,
         MatButtonModule,
         MatSelectModule,
+        MatMenuModule,
     ],
     declarations: [HeaderComponent],
     exports: [HeaderComponent],

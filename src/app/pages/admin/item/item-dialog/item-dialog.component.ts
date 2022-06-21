@@ -16,6 +16,8 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { filter, distinctUntilChanged, startWith, tap, debounceTime } from 'rxjs/operators';
+import { SlugifyPipe } from 'src/app/common/pipe/slugify/slugify.pipe';
 import { Category } from 'src/app/common/schema/category';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Item } from 'src/app/common/schema/item';
@@ -37,6 +39,7 @@ export interface ItemDialogData {
     templateUrl: './item-dialog.component.html',
     styleUrls: ['./item-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [SlugifyPipe],
 })
 export class ItemDialogComponent implements OnInit, OnDestroy {
     public form!: FormGroup;
@@ -48,8 +51,9 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
 
     constructor(
         private _fb: FormBuilder,
-        private _dialogRef: MatDialogRef<ItemDialogComponent>,
         private _cdr: ChangeDetectorRef,
+        private _slugifyPipe: SlugifyPipe,
+        private _dialogRef: MatDialogRef<ItemDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: ItemDialogData
     ) {}
 
@@ -70,6 +74,8 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
                 this.generateForm(this.data.payload);
                 break;
         }
+
+        this.autocompleteSlug();
     }
 
     ngOnDestroy(): void {
@@ -109,5 +115,22 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
     submitForm() {
         this.data.callback?.bind(this.data.thisRef)(this.form.getRawValue());
         this._cdr.markForCheck();
+    }
+
+    // Autocomplete slug field based on name field
+    autocompleteSlug() {
+        this._subs.add(
+            this.f.name.valueChanges
+                .pipe(
+                    filter((value) => value.length > 0),
+                    startWith(this.f.name.value),
+                    distinctUntilChanged(),
+                    debounceTime(500),
+                    tap((value) => {
+                        this.f.slug.setValue(this._slugifyPipe.transform(value));
+                    })
+                )
+                .subscribe()
+        );
     }
 }

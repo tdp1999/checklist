@@ -20,7 +20,7 @@ export class ApiItemAbstractService {
         return this._api.get('item', { params: queryParam });
     }
 
-    retrieveItem(id: string): Observable<Item> {
+    retrieveItem(id: string): Observable<[Item]> {
         return this._api.get(`item/${id}`);
     }
 

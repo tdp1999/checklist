@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { SlugifyModule } from 'src/app/common/pipe/slugify/slugify.module';
 
 @NgModule({
     declarations: [CustomDialogComponent],
@@ -20,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
+        SlugifyModule,
     ],
 })
 export class CustomDialogModule {}

@@ -4,7 +4,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
             <input formControlName="name" matInput />
-            <mat-error *ngIf="f['name']">Error! Pipe</mat-error>
+            <mat-error *ngIf="f['name']">Errors have occured</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
@@ -14,7 +14,7 @@
 
         <mat-form-field appearance="fill">
             <mat-label>Textarea</mat-label>
-            <textarea formArrayName="description" matInput></textarea>
+            <textarea formControlName="description" matInput></textarea>
         </mat-form-field>
     </div>
     <div mat-dialog-actions>

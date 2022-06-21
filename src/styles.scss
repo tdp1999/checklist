@@ -31,3 +31,9 @@ main {
 .mat-drawer-container {
     flex: 1;
 }
+
+@layer components {
+    a.custom-normal-link {
+        @apply text-blue-400 hover:text-blue-700;
+    }
+}
