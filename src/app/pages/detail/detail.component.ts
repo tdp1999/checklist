@@ -20,7 +20,6 @@ import { SidenavService } from 'src/app/common/service/sidenav.service';
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    // encapsulation: ViewEncapsulation.None,
 })
 export class DetailComponent implements OnInit, AfterViewChecked {
     public item$: Observable<Item> | undefined;

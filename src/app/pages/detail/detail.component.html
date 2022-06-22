@@ -1,6 +1,16 @@
 <ng-container *ngIf="item$ | async as item">
-    <mat-checkbox [(ngModel)]="markAsDone" (ngModelChange)="onStateChanges(item)">
-        Mark as done
-    </mat-checkbox>
-    <div [innerHTML]="item.content"></div>
+    <div class="flex items-center justify-between">
+        <mat-checkbox [(ngModel)]="markAsDone" (ngModelChange)="onStateChanges(item)">
+            Mark as done
+        </mat-checkbox>
+
+        <a
+            [routerLink]="['/admin/items/']"
+            [queryParams]="{ itemID: item._id }"
+            mat-flat-button
+            color="primary"
+            >Edit content</a
+        >
+    </div>
+    <div class="editorial" [innerHTML]="item.content"></div>
 </ng-container>

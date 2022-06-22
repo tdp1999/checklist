@@ -3,8 +3,10 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject, timer } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { SlugifyPipe } from 'src/app/common/pipe/slugify/slugify.pipe';
 import { Category } from 'src/app/common/schema/category';
 import { ActionType } from 'src/app/common/schema/datatable/Action';
 import { Column } from 'src/app/common/schema/datatable/Column';
@@ -21,6 +23,7 @@ import { ItemDialogComponent } from './item-dialog/item-dialog.component';
     templateUrl: './item.component.html',
     styleUrls: ['./item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [SlugifyPipe],
 })
 export class ItemComponent implements OnInit, OnDestroy {
     // Obsevable data varibles
@@ -75,10 +78,13 @@ export class ItemComponent implements OnInit, OnDestroy {
     public totalItems: number = 0;
 
     constructor(
-        private _categoryService: ApiCategoryAbstractService,
-        private _itemService: ApiItemAbstractService,
+        private _router: Router,
         private _dialog: MatDialog,
-        private _snackbar: MatSnackBar
+        private _snackbar: MatSnackBar,
+        private _slugifyPipe: SlugifyPipe,
+        private _activatedRoute: ActivatedRoute,
+        private _itemService: ApiItemAbstractService,
+        private _categoryService: ApiCategoryAbstractService
     ) {
         // Use BehaviorSubject to notify the table to update
         this.items$ = this._itemSubject$.asObservable().pipe(
@@ -115,6 +121,13 @@ export class ItemComponent implements OnInit, OnDestroy {
             .subscribe((categoryList: Category[]) => {
                 this.categoryList = categoryList;
             });
+
+        // Watch for item query param
+        this._sub.sink = this._activatedRoute.queryParams.subscribe((queryParams) => {
+            if (queryParams.itemID) {
+                this.editItem(queryParams.itemID);
+            }
+        });
     }
 
     ngOnDestroy(): void {
@@ -126,9 +139,9 @@ export class ItemComponent implements OnInit, OnDestroy {
         let { type, payload } = event;
 
         switch (type) {
-            // case ActionType.VIEW:
-            //     this.viewItem(payload);
-            //     break;
+            case ActionType.VIEW:
+                this.viewItem(payload);
+                break;
 
             case ActionType.CREATE:
                 this.addItem();
@@ -151,9 +164,11 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     // ---------- VIEW ---------- //
-    // viewItem(id: string): void {
-    //     console.log(id);
-    // }
+    viewItem(payload: Item): void {
+        let categorySlug = this._slugifyPipe.transform(payload.categoryName);
+        this._router.navigate(['/checklist/', categorySlug, payload.slug]);
+        console.log(payload);
+    }
 
     // ---------- CREATE ---------- //
     addItem(): void {

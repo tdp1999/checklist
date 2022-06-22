@@ -6,6 +6,7 @@ import { ItemComponent } from './item.component';
 import { DatatableModule } from 'src/app/shared-components/datatable/datatable.module';
 
 import { ItemDialogModule } from './item-dialog/item-dialog.module';
+import { SlugifyModule } from 'src/app/common/pipe/slugify/slugify.module';
 
 // Import Material Modules
 import { MatButtonModule } from '@angular/material/button';
@@ -20,6 +21,7 @@ import { LoadingSpinnerModule } from 'src/app/shared-components/loading-spinner/
         MatButtonModule,
         ItemDialogModule,
         LoadingSpinnerModule,
+        SlugifyModule,
     ],
 })
 export class ItemModule {}

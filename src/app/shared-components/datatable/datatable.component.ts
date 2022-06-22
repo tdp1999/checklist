@@ -54,10 +54,10 @@ export class DatatableComponent implements OnChanges, OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {}
 
-    actionTriggered(type: ActionType, elementId: string): void {
+    actionTriggered(type: ActionType, payload: any): void {
         this.onActionTriggered.emit({
             type,
-            payload: elementId,
+            payload,
         });
     }
 

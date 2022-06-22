@@ -3,7 +3,7 @@ export interface Item {
     name: string;
     slug: string;
     categoryID: string;
-    categoryName?: string;
+    categoryName: string;
     content: string;
     isDone: boolean;
     _createdAt?: string;

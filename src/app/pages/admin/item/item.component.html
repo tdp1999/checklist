@@ -14,7 +14,7 @@
         [totalItems]="totalItems"
         [dataSource]="items$ | async"
         [displayedColumns]="displayedColumn"
-        [actions]="[actionType.EDIT, actionType.DELETE]"
+        [actions]="[actionType.EDIT, actionType.DELETE, actionType.VIEW]"
         (onActionTriggered)="onActionTriggered($event)"
         (onPaginationChange)="onPaginationChange($event)"
     ></app-datatable>
