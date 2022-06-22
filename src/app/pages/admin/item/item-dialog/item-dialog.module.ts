@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { SlugifyModule } from 'src/app/common/pipe/slugify/slugify.module';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { LoadingSpinnerModule } from 'src/app/shared-components/loading-spinner/loading-spinner.module';
 
 @NgModule({
     declarations: [ItemDialogComponent],
@@ -24,6 +26,8 @@ import { SlugifyModule } from 'src/app/common/pipe/slugify/slugify.module';
         MatSelectModule,
         MatButtonModule,
         SlugifyModule,
+        EditorModule,
+        LoadingSpinnerModule,
     ],
 })
 export class ItemDialogModule {}

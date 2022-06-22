@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="submitForm()">
     <h1 mat-dialog-title>{{ title }}</h1>
-    <div class="dialog-content" mat-dialog-content>
+    <div class="relative dialog-content" mat-dialog-content>
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
             <input formControlName="name" matInput />
@@ -21,10 +21,53 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <!-- <mat-form-field appearance="fill">
             <mat-label>Content</mat-label>
             <textarea placeholder="Content" formControlName="content" matInput rows="10"></textarea>
-        </mat-form-field>
+        </mat-form-field> -->
+
+        <!-- 'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount codesample'
+                    'advlist lists link image charmap print preview anchor', -->
+
+        <ng-container *ngIf="isEditorLoading">
+            <app-loading-spinner></app-loading-spinner>
+        </ng-container>
+
+        <editor
+            (onInit)="isEditorLoading = false"
+            formControlName="content"
+            apiKey="n6uchik9lzofpnvapnob6kyk3m43qhiafaad5cxh4rkg4ee3"
+            [init]="{
+                height: 500,
+                menubar: false,
+                plugins: [
+                    'codesample',
+                    'autolink',
+                    'lists',
+                    'link',
+                    'image',
+                    'charmap',
+                    'preview',
+                    'anchor',
+                    'code'
+                ],
+                toolbar:
+                    'formatselect | bold italic backcolor | \
+                                alignleft aligncenter alignright alignjustify | \
+                                bullist numlist outdent indent | removeformat | codesample print code',
+                codesample_languages: [
+                    {
+                        text: 'HTML/XML',
+                        value: 'markup'
+                    },
+                    {
+                        text: 'SCSS',
+                        value: 'scss'
+                    }
+                ]
+            }"
+        ></editor>
     </div>
     <div mat-dialog-actions>
         <button type="submit" mat-button mat-dialog-close [disabled]="!form.valid">

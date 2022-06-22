@@ -6,6 +6,10 @@
 
 @import "abstracts/reset";
 
+// Imports the PrismJS theme
+@import "~prismjs/plugins/toolbar/prism-toolbar.css";
+@import "~prismjs/themes/prism-okaidia";
+
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -36,4 +40,18 @@ main {
     a.custom-normal-link {
         @apply text-blue-400 hover:text-blue-700;
     }
+
+    // .editorial {
+    //     h1,
+    //     h2,
+    //     h3,
+    //     h4,
+    //     h5 {
+    //         @apply font-bold;
+    //     }
+
+    //     code {
+    //         @apply font-mono bg-black text-white;
+    //     }
+    // }
 }

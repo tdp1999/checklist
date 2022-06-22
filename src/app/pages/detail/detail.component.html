@@ -1,11 +1,6 @@
 <ng-container *ngIf="item$ | async as item">
-    <div>
-        {{ item.name }}
-    </div>
     <mat-checkbox [(ngModel)]="markAsDone" (ngModelChange)="onStateChanges(item)">
         Mark as done
     </mat-checkbox>
-    <div>
-        {{ item.content }}
-    </div>
+    <div [innerHTML]="item.content"></div>
 </ng-container>

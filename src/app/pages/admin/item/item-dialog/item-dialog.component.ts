@@ -46,6 +46,7 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
 
     public title = '';
     public submitText = 'OK';
+    public isEditorLoading = false;
 
     private _subs = new SubSink();
 
@@ -60,6 +61,7 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
     // Life cycle hooks
     ngOnInit(): void {
         this._dialogRef.updateSize('60%', 'fit-content');
+        this.isEditorLoading = true;
 
         switch (this.data.action) {
             case ActionType.CREATE:
@@ -132,5 +134,10 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
                 )
                 .subscribe()
         );
+    }
+
+    // Rich Editor
+    handleOnInit() {
+        console.log('handleOnInit');
     }
 }
