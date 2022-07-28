@@ -38,7 +38,7 @@ export interface ItemDialogData {
     selector: 'app-item-dialog',
     templateUrl: './item-dialog.component.html',
     styleUrls: ['./item-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    // changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [SlugifyPipe],
 })
 export class ItemDialogComponent implements OnInit, OnDestroy {
