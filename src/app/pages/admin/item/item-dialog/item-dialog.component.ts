@@ -15,6 +15,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { Observable } from 'rxjs';
 import { filter, distinctUntilChanged, startWith, tap, debounceTime } from 'rxjs/operators';
 import { SlugifyPipe } from 'src/app/common/pipe/slugify/slugify.pipe';
@@ -46,6 +47,9 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
 
     public title = '';
     public submitText = 'OK';
+
+    // Flag
+    public halt = false;
     public isEditorLoading = false;
 
     private _subs = new SubSink();
@@ -60,9 +64,8 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
 
     // Life cycle hooks
     ngOnInit(): void {
+        this.loadingStateHandler('isEditorLoading');
         this._dialogRef.updateSize('60%', 'fit-content');
-        this.isEditorLoading = true;
-
         switch (this.data.action) {
             case ActionType.CREATE:
                 // https://stackoverflow.com/questions/2236747/what-is-the-use-of-the-javascript-bind-method
@@ -112,6 +115,8 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
             slugControl?.disable();
             slugControl?.removeAsyncValidators;
         }
+
+        this.form.disable();
     }
 
     submitForm() {
@@ -136,8 +141,13 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
         );
     }
 
-    // Rich Editor
-    handleOnInit() {
-        console.log('handleOnInit');
+    loadingStateHandler(flagKey: string) {
+        if (flagKey === 'isEditorLoading') {
+            this.isEditorLoading = !this.isEditorLoading;
+        }
+
+        // this.halt = this.isEditorLoading || this.aFlag || this.anotherFlag;
+        this.halt = this.isEditorLoading;
+        if (this.form) this.halt ? this.form.disable() : this.form.enable();
     }
 }

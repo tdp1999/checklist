@@ -30,12 +30,12 @@
                     'insertdatetime media table paste code help wordcount codesample'
                     'advlist lists link image charmap print preview anchor', -->
 
-        <ng-container *ngIf="isEditorLoading">
+        <ng-container *ngIf="halt">
             <app-loading-spinner></app-loading-spinner>
         </ng-container>
 
         <editor
-            (onInit)="isEditorLoading = false"
+            (onInit)="loadingStateHandler('isEditorLoading')"
             formControlName="content"
             apiKey="n6uchik9lzofpnvapnob6kyk3m43qhiafaad5cxh4rkg4ee3"
             [init]="{
