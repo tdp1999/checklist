@@ -1,27 +1,41 @@
 # Checklist
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.1.
+With the desire to keep the best practices, check the semantic errors in the code and create my own coding style, I created this project.
 
-## Development server
+Basically, this is just a very simple project checklist, or to-do list, that anyone can do. However, with my little experience, it took me quite a while for some of the parts that I tried for the first time, such as building a RESTful API server for this project.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+![checklist](https://user-images.githubusercontent.com/86217622/175207211-c5e5e915-eee4-4e89-88ce-0b4870748173.png)
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Updated on June 23, 2022.
 
-## Build
+## Features
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Mark criteria (item) as done
+- Add, edit, delete criteria (item)
+- Add, edit, delete criteria category
+- View detailed criteria
 
-## Running unit tests
+## Technical Stack
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Frontend: Angular, TailwindCSS, TinyMCE + Prismjs (RTE)
+- Backend: Node.js, Express.js, PostgresSQL
+- Cloud Hosting:
+	- Frontend: Github Pages
+	- Backend: Heroku
 
-## Running end-to-end tests
+##  Expected Features
+With the original purpose of the project was to solve personal needs, so the project has now partly met this condition.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+However, for the application to be more practical, as well as to enhance the personal experience, here are some features that are expected to be integrated in the near future:
+- Project: Each project will have its own set of criteria
+- Authentication: Registration and login required before using the app
+- UI and UX: Upgrades
 
-## Further help
+## Suggestions
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+If you have any suggestions or find bugs in the project, please feel free to create a new issue.
+
+## Credits
+
+Most of the ideas and UI of this project are influenced by [Angular Checklist](https://angular-checklist.io/projects)
