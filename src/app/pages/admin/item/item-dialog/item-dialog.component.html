@@ -1,15 +1,16 @@
 <form [formGroup]="form" (ngSubmit)="submitForm()">
-    <h1 mat-dialog-title>{{ title }}</h1>
+    <h1 mat-dialog-title appTestDirective>{{ title }}</h1>
     <div class="relative dialog-content" mat-dialog-content>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" [control]="f.name">
             <mat-label>Name</mat-label>
-            <input formControlName="name" matInput />
-            <mat-error *ngIf="f['name']">Error! Pipe</mat-error>
+            <input formControlName="name" matInput placeholder="Add name" />
+            <mat-error [control]="f.name"></mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" [control]="f.slug">
             <mat-label>Slug</mat-label>
-            <input formControlName="slug" matInput />
+            <input formControlName="slug" matInput placeholder="Add slug" />
+            <mat-error [control]="f.slug"></mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
@@ -19,6 +20,7 @@
                     category.name
                 }}</mat-option>
             </mat-select>
+            <mat-error [control]="f.categoryID"></mat-error>
         </mat-form-field>
 
         <!-- <mat-form-field appearance="fill">
@@ -35,11 +37,12 @@
         </ng-container>
 
         <editor
-            (onInit)="loadingStateHandler('isEditorLoading')"
+            customErrorField
+            (onInit)="editorInitHandler()"
             formControlName="content"
             apiKey="n6uchik9lzofpnvapnob6kyk3m43qhiafaad5cxh4rkg4ee3"
             [init]="{
-                height: 500,
+                height: 150,
                 menubar: false,
                 plugins: [
                     'codesample',
@@ -68,6 +71,7 @@
                 ]
             }"
         ></editor>
+        <div customError [control]="f.content" class="custom-error-message"></div>
     </div>
     <div mat-dialog-actions>
         <button type="submit" mat-button mat-dialog-close [disabled]="!form.valid">

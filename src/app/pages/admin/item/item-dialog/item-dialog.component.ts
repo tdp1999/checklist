@@ -104,7 +104,10 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
                 this.data.validateList?.slug.bind(this.data.thisRef),
             ],
             categoryID: [editValue ? editValue.categoryID : '', [Validators.required]],
-            content: [editValue ? editValue.content : '', [Validators.required]],
+            content: [
+                { value: editValue ? editValue.content : '', disabled: false },
+                [Validators.required],
+            ],
             isDone: [editValue ? editValue.isDone : false],
         });
 
@@ -116,7 +119,7 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
             slugControl?.removeAsyncValidators;
         }
 
-        this.form.disable();
+        // this.form.disable();
     }
 
     submitForm() {
@@ -148,6 +151,11 @@ export class ItemDialogComponent implements OnInit, OnDestroy {
 
         // this.halt = this.isEditorLoading || this.aFlag || this.anotherFlag;
         this.halt = this.isEditorLoading;
-        if (this.form) this.halt ? this.form.disable() : this.form.enable();
+        // if (this.form) this.halt ? this.form.disable() : this.form.enable();
+    }
+
+    editorInitHandler() {
+        this.loadingStateHandler('isEditorLoading');
+        // this._cdr.markForCheck();
     }
 }
