@@ -1,7 +1,8 @@
-@import "tailwindcss/components";
+@import "tailwindcss/components.css";
 
 @layer components {
     a.custom-normal-link {
         @apply text-blue-400 hover:text-blue-700;
+        // @apply text-red-400 hover:text-red-700;
     }
 }

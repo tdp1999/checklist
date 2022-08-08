@@ -13,10 +13,8 @@ export class MatFormFieldMarginDirective implements OnInit, OnDestroy {
 
     ngOnInit() {
         this._subscription.add(
-            this.control?.valueChanges.subscribe(() => {
-                // if (this.control?.errors && (this.control?.dirty || this.control?.touched)) {
-                if (this.control?.errors) {
-                    // if (this.control?.errors && this.control?.dirty) {
+            this.control?.statusChanges.subscribe((status) => {
+                if (status === 'INVALID' && this.control?.errors) {
                     this.renderer.addClass(this.el.nativeElement, 'mb-2');
                 } else if (this.el.nativeElement.classList.contains('mb-2')) {
                     this.el.nativeElement.classList.remove('mb-2');

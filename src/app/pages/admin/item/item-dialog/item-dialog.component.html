@@ -13,14 +13,16 @@
             <mat-error [control]="f.slug"></mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" [control]="f['categoryID']">
             <mat-label>Category</mat-label>
             <mat-select formControlName="categoryID">
+                <!-- Null option -->
+                <mat-option [value]="null">None</mat-option>
                 <mat-option *ngFor="let category of data.category" [value]="category._id">{{
                     category.name
                 }}</mat-option>
             </mat-select>
-            <mat-error [control]="f.categoryID"></mat-error>
+            <mat-error [control]="f['categoryID']"></mat-error>
         </mat-form-field>
 
         <!-- <mat-form-field appearance="fill">
