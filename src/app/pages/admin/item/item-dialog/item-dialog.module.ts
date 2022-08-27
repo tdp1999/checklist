@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SlugifyModule } from 'src/app/common/pipe/slugify/slugify.module';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { LoadingSpinnerModule } from 'src/app/shared-components/loading-spinner/loading-spinner.module';
-import { FormValidateModule } from 'src/app/common/directive/form-validate/form-validate.module';
+import { ErrorMessageModule } from 'src/app/shared-components/error-message/error-message.module';
 
 @NgModule({
     declarations: [ItemDialogComponent],
@@ -29,7 +29,7 @@ import { FormValidateModule } from 'src/app/common/directive/form-validate/form-
         SlugifyModule,
         EditorModule,
         LoadingSpinnerModule,
-        FormValidateModule,
+        ErrorMessageModule,
     ],
 })
 export class ItemDialogModule {}

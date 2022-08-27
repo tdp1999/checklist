@@ -3,18 +3,26 @@
     <div class="dialog-content" mat-dialog-content>
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input formControlName="name" matInput />
-            <mat-error *ngIf="f['name']">Errors have occured</mat-error>
+            <input formControlName="name" matInput placeholder="Add name" />
+            <!-- <mat-error *ngIf="f.name.errors"></mat-error> -->
+            <mat-error matErrorMessage></mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Slug</mat-label>
-            <input formControlName="slug" matInput />
+            <input formControlName="slug" matInput placeholder="Add slug" />
+            <mat-error matErrorMessage></mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Description</mat-label>
-            <textarea formControlName="description" matInput></textarea>
+            <textarea
+                formControlName="description"
+                matInput
+                placeholder="Add description"
+                matErrorMessage
+            ></textarea>
+            <mat-error></mat-error>
         </mat-form-field>
     </div>
     <div mat-dialog-actions>
